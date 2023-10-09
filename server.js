@@ -7,5 +7,5 @@ const app = express();
 app.get('/api/animelist', animelist.retrieve);
 
 app.listen(3001, () => {
-  console.log("Server running");
+  console.log('Server running');
 });

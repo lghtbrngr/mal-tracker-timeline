@@ -5,7 +5,7 @@ exports.retrieve = async (req, res) => {
   const url = `https://api.myanimelist.net/v2/users/${malUsername}/animelist?status=watching`;
   const options = {
     headers: {
-      "X-MAL-CLIENT-ID": malClientId,
+      'X-MAL-CLIENT-ID': malClientId,
     },
   };
   const response = await fetch(url, options);
