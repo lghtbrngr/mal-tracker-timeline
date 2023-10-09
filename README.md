@@ -1,3 +1,10 @@
+# MyAnimeList Tracker Timeline
+A simple web app that provides an alternative way for users of myanimelist.net (MAL) to view and
+update their anime lists, especially their Currently Watching list.
+The main idea is to display the Currently Watching list visually as a timeline, with more-recently-viewed
+titles toward one side and less-recently-viewed titles toward the other.
+Includes a backend server that integrates with the official MAL API to access user anime lists.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
