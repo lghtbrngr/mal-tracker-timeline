@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const animelist = require('./server-src/animelist.js');
+const animelist = require('./server-src/animelist');
 
 const app = express();
 
