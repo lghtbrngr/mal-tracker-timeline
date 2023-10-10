@@ -36,7 +36,13 @@
         ],
         "no-console": "off",
         "arrow-parens": "off",
-        "object-curly-newline": "off"
+        "object-curly-newline": "off",
+        "operator-linebreak": "off",
+        "no-param-reassign": [
+            "error", {
+                "props": false
+            }
+        ]
     },
     "overrides": [
         {
