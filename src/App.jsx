@@ -14,7 +14,7 @@ function App() {
 
   return (
     <div>
-      {cwList.map(title => <p key={title.node.id}><AnimeCard anime={title.node} /></p>)}
+      {cwList.map(anime => <p key={anime.node.id}><AnimeCard anime={anime} /></p>)}
     </div>
   );
 }

@@ -6,6 +6,9 @@ interface AnimeCardProps {
 
 export default function AnimeCard({ anime }: AnimeCardProps) {
   return (
-    <p>{anime.title}</p>
+    <div>
+      <img src={anime.node.main_picture.medium} alt="" width="50" />
+      <span>{anime.node.title}</span>
+    </div>
   );
 }
