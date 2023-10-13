@@ -43,6 +43,7 @@
         "arrow-parens": "off",
         "object-curly-newline": "off",
         "operator-linebreak": "off",
+        "no-mixed-operators": "off",
         "no-param-reassign": [
             "error", {
                 "props": false
