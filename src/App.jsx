@@ -1,14 +1,9 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAnimeList, selectCwList } from './state/animeSlice';
-
-const IMAGE_WIDTH = 50;
-
-function dayOf(timestamp) {
-  const d = new Date(timestamp);
-  d.setHours(0, 0, 0, 0);
-  return d;
-}
+import AnimeCard from './components/AnimeCard';
+import IMAGE_WIDTH from './constants';
+import dayOf from './util';
 
 function App() {
   const dispatch = useDispatch();
@@ -45,26 +40,16 @@ function App() {
   }
   const operationalWidth = timelineWidth - IMAGE_WIDTH;
 
+  const timelineData = {
+    leastRecentDate,
+    timespan,
+    operationalWidth,
+  };
+
   return (
     <div className="flex flex-col h-screen justify-center">
       <div className="relative border-b-2 border-black" ref={timelineRef}>
-        {sortedList.map(anime => {
-          const date = dayOf(anime.list_status.updated_at);
-          const percentage = (date - leastRecentDate) / timespan;
-          const offset = percentage * operationalWidth;
-          console.log((date - leastRecentDate), timespan, percentage, offset);
-          return (
-            <img
-              src={anime.node.main_picture.medium}
-              width={IMAGE_WIDTH}
-              alt=""
-              className="absolute -top-20"
-              style={{
-                left: `${offset}px`,
-              }}
-            />
-          );
-        })}
+        {sortedList.map(anime => <AnimeCard anime={anime} timelineData={timelineData} />)}
       </div>
     </div>
   );
