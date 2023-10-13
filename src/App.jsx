@@ -4,6 +4,12 @@ import { fetchAnimeList, selectCwList } from './state/animeSlice';
 
 const IMAGE_WIDTH = 50;
 
+function dayOf(timestamp) {
+  const d = new Date(timestamp);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -34,9 +40,8 @@ function App() {
   let leastRecentDate = null;
   let timespan = null;
   if (sortedList.length > 0) {
-    leastRecentDate =
-      new Date(sortedList[sortedList.length - 1].list_status.updated_at);
-    timespan = new Date() - leastRecentDate;
+    leastRecentDate = dayOf(sortedList[sortedList.length - 1].list_status.updated_at);
+    timespan = dayOf(new Date()) - leastRecentDate;
   }
   const operationalWidth = timelineWidth - IMAGE_WIDTH;
 
@@ -44,10 +49,10 @@ function App() {
     <div className="flex flex-col h-screen justify-center">
       <div className="relative border-b-2 border-black" ref={timelineRef}>
         {sortedList.map(anime => {
-          const date = new Date(anime.list_status.updated_at);
+          const date = dayOf(anime.list_status.updated_at);
           const percentage = (date - leastRecentDate) / timespan;
           const offset = percentage * operationalWidth;
-          console.log(offset);
+          console.log((date - leastRecentDate), timespan, percentage, offset);
           return (
             <img
               src={anime.node.main_picture.medium}
