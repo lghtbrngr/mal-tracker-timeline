@@ -1,15 +1,5 @@
-import React, { useLayoutEffect, useRef, useState } from 'react';
-
-function useBoundingClientRect() {
-  const ref = useRef(null) as any;
-  const [rect, setRect] = useState(null);
-  useLayoutEffect(() => {
-    if (ref.current) {
-      setRect(ref.current.getBoundingClientRect());
-    }
-  }, []);
-  return [rect, ref];
-}
+import React from 'react';
+import { useBoundingClientRect } from '../hooks';
 
 interface MonthMarkerProps {
   month: Date;
@@ -20,7 +10,7 @@ interface MonthMarkerProps {
 }
 
 export default function MonthMarker({ month, timelineData }: MonthMarkerProps) {
-  const [rect, labelRef] = useBoundingClientRect();
+  const [rect, labelRef] = useBoundingClientRect() as any;
   const labelOffset = rect ? rect.width / 2 : 0;
 
   const label = `${month.getMonth() + 1}-${month.getFullYear()}`;

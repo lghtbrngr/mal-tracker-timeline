@@ -1,10 +1,11 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAnimeList, selectCwList } from './state/animeSlice';
 import AnimeCard from './components/AnimeCard';
 import IMAGE_WIDTH from './constants';
 import { dayOf } from './util';
 import renderMonthMarkers from './components/renderMonthMarkers';
+import { useBoundingClientRect } from './hooks';
 
 function App() {
   const dispatch = useDispatch();
@@ -12,15 +13,8 @@ function App() {
     dispatch(fetchAnimeList());
   }, []);
 
-  const timelineRef = useRef(null);
-  const [timelineWidth, setTimelineWidth] = useState(1);
-
-  useLayoutEffect(() => {
-    if (timelineRef.current) {
-      const { width } = timelineRef.current.getBoundingClientRect();
-      setTimelineWidth(width);
-    }
-  }, []);
+  const [rect, timelineRef] = useBoundingClientRect();
+  const timelineWidth = rect?.width || 1;
 
   const cwList = useSelector(selectCwList);
 

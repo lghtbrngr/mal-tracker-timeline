@@ -44,6 +44,7 @@
         "object-curly-newline": "off",
         "operator-linebreak": "off",
         "no-mixed-operators": "off",
+        "import/prefer-default-export": "off",
         "no-param-reassign": [
             "error", {
                 "props": false
