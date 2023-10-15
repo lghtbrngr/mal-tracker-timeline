@@ -14,7 +14,7 @@ export const animeSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(fetchAnimeList.fulfilled, (state, action) => {
-        state.cwList = action.payload.data;
+        state.cwList = action.payload;
       });
   },
 });

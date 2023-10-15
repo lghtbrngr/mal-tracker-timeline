@@ -45,6 +45,7 @@
         "operator-linebreak": "off",
         "no-mixed-operators": "off",
         "import/prefer-default-export": "off",
+        "no-await-in-loop": "off",
         "no-param-reassign": [
             "error", {
                 "props": false

@@ -10,7 +10,13 @@ exports.retrieve = async (req, res) => {
       'X-MAL-CLIENT-ID': malClientId,
     },
   };
-  const response = await fetch(url, options);
-  const result = await response.json();
+  let result = [];
+  let nextUrl = url;
+  while (nextUrl) {
+    const response = await fetch(nextUrl, options);
+    const json = await response.json();
+    result = result.concat(json.data);
+    nextUrl = json.paging.next;
+  }
   res.send(result);
 };
