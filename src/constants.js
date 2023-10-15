@@ -1,2 +1,2 @@
-const IMAGE_WIDTH = 50;
-export default IMAGE_WIDTH;
+export const IMAGE_WIDTH = 50;
+export const IMAGE_HEIGHT = 70;

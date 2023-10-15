@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAnimeList, selectCwList } from './state/animeSlice';
 import AnimeCard from './components/AnimeCard';
-import IMAGE_WIDTH from './constants';
+import { IMAGE_WIDTH } from './constants';
 import { dayOf } from './util';
 import renderMonthMarkers from './components/renderMonthMarkers';
 import { useBoundingClientRect } from './hooks';

@@ -1,5 +1,6 @@
 import React from 'react';
-import IMAGE_WIDTH from '../constants';
+import clsx from 'clsx';
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from '../constants';
 import { dayOf } from '../util';
 import { Anime } from '../types';
 
@@ -14,15 +15,32 @@ interface AnimeCardProps {
 export default function AnimeCard({ anime, timelineData }: AnimeCardProps) {
   const date = dayOf(anime.list_status.updated_at);
   const offset = timelineData.offset(date);
+
+  const tickBorderWidth = 2;
+  const imageOffset = (IMAGE_WIDTH - tickBorderWidth) / 2;
   return (
-    <img
-      src={anime.node.main_picture.medium}
-      width={IMAGE_WIDTH}
-      alt=""
+    <div
       className="absolute -top-20"
       style={{
         left: `${offset}px`,
       }}
-    />
+    >
+      <img
+        src={anime.node.main_picture.medium}
+        width={IMAGE_WIDTH}
+        className={clsx([
+          'relative',
+          'border border-black',
+        ])}
+        style={{
+          left: `-${imageOffset}px`,
+          height: IMAGE_HEIGHT,
+        }}
+        alt=""
+      />
+      <span
+        className="absolute border-l-2 border-black h-[11px]"
+      />
+    </div>
   );
 }
