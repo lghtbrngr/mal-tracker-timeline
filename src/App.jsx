@@ -32,24 +32,24 @@ function App() {
     return d2 - d1;
   });
 
-  let leastRecentDate = null;
-  let timespan = null;
+  let timelineData = {};
   if (sortedList.length > 0) {
-    leastRecentDate = dayOf(sortedList[sortedList.length - 1].list_status.updated_at);
-    timespan = dayOf(new Date()) - leastRecentDate;
+    const leastRecentDate = dayOf(sortedList[sortedList.length - 1].list_status.updated_at);
+    timelineData = {
+      leastRecentDate,
+      offset: (date) => {
+        const timespan = dayOf(new Date()) - leastRecentDate;
+        const percentage = (date.valueOf() - leastRecentDate.valueOf()) / timespan;
+        return percentage * (timelineWidth - IMAGE_WIDTH);
+      },
+    };
   }
-  const operationalWidth = timelineWidth - IMAGE_WIDTH;
-
-  const timelineData = {
-    leastRecentDate,
-    timespan,
-    operationalWidth,
-  };
 
   return (
     <div className="flex flex-col h-screen justify-center">
       <div className="relative border-b-2 border-black" ref={timelineRef}>
         {sortedList.map(anime => <AnimeCard anime={anime} timelineData={timelineData} />)}
+        {/* {renderMonthMarkers(timelineData)} */}
       </div>
     </div>
   );
