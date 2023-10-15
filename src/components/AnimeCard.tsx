@@ -16,8 +16,8 @@ export default function AnimeCard({ anime, timelineData }: AnimeCardProps) {
   const date = dayOf(anime.list_status.updated_at);
   const offset = timelineData.offset(date);
 
-  const tickBorderWidth = 2;
-  const imageOffset = (IMAGE_WIDTH - tickBorderWidth) / 2;
+  const tickWidth = 2;
+  const imageOffset = (IMAGE_WIDTH - tickWidth) / 2;
   return (
     <div
       className="absolute -top-20"
@@ -31,6 +31,7 @@ export default function AnimeCard({ anime, timelineData }: AnimeCardProps) {
         className={clsx([
           'relative',
           'border border-black',
+          'max-w-none',
         ])}
         style={{
           left: `-${imageOffset}px`,

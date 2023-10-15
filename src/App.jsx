@@ -33,7 +33,9 @@ function App() {
       offset: (date) => {
         const timespan = dayOf(new Date()) - leastRecentDate;
         const percentage = (date.valueOf() - leastRecentDate.valueOf()) / timespan;
-        return percentage * (timelineWidth - IMAGE_WIDTH);
+        const horizontalPadding = IMAGE_WIDTH; // don't cut off image at either side of the timeline
+        const leftPadding = horizontalPadding / 2;
+        return percentage * (timelineWidth - horizontalPadding) + leftPadding;
       },
     };
   }
