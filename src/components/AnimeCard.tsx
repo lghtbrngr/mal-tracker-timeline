@@ -1,8 +1,8 @@
 import React from 'react';
 import IMAGE_WIDTH from '../constants';
 import { dayOf } from '../util';
+import { Anime } from '../types';
 
-type Anime = Record<string, any>;
 interface AnimeCardProps {
   anime: Anime;
   timelineData: {
