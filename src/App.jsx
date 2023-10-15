@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAnimeList, selectCwList } from './state/animeSlice';
 import AnimeCard from './components/AnimeCard';
 import IMAGE_WIDTH from './constants';
-import dayOf from './util';
+import { dayOf } from './util';
+import renderMonthMarkers from './components/renderMonthMarkers';
 
 function App() {
   const dispatch = useDispatch();
@@ -20,10 +21,8 @@ function App() {
       setTimelineWidth(width);
     }
   }, []);
-  console.log(timelineWidth);
 
   const cwList = useSelector(selectCwList);
-  console.log(cwList);
 
   const sortedList = cwList.slice();
   sortedList.sort((a, b) => {
@@ -49,7 +48,7 @@ function App() {
     <div className="flex flex-col h-screen justify-center">
       <div className="relative border-b-2 border-black" ref={timelineRef}>
         {sortedList.map(anime => <AnimeCard anime={anime} timelineData={timelineData} />)}
-        {/* {renderMonthMarkers(timelineData)} */}
+        {sortedList.length > 0 && renderMonthMarkers(timelineData)}
       </div>
     </div>
   );
