@@ -1,35 +1,36 @@
 import React from 'react';
 import clsx from 'clsx';
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from '../constants';
-import { dayOf } from '../util';
 import { Anime } from '../types';
+
+const BOTTOM_PADDING = 10;
+const ROW_HEIGHT = IMAGE_HEIGHT + BOTTOM_PADDING;
 
 interface AnimeCardProps {
   anime: Anime;
-  timelineData: {
-    leastRecentDate: Date;
-    offset: (a: Anime) => number;
-  };
+
+  // x is in pixels and y represents a row number
+  position: { x: number, y: number };
 }
 
-export default function AnimeCard({ anime, timelineData }: AnimeCardProps) {
-  const date = dayOf(anime.list_status.updated_at);
-  const offset = timelineData.offset(date);
-
+export default function AnimeCard({ anime, position }: AnimeCardProps) {
+  const yOffset = ROW_HEIGHT * (position.y + 1);
+  const tickHeight = ROW_HEIGHT * position.y + BOTTOM_PADDING;
   const tickWidth = 2;
   const imageOffset = (IMAGE_WIDTH - tickWidth) / 2;
   return (
     <div
-      className="absolute -top-20"
+      className="absolute"
       style={{
-        left: `${offset}px`,
+        left: `${position.x}px`,
+        top: `-${yOffset}px`,
       }}
     >
       <img
         src={anime.node.main_picture.medium}
         width={IMAGE_WIDTH}
         className={clsx([
-          'relative',
+          'relative z-10',
           'border border-black',
           'max-w-none',
         ])}
@@ -40,7 +41,13 @@ export default function AnimeCard({ anime, timelineData }: AnimeCardProps) {
         alt=""
       />
       <span
-        className="absolute border-l-2 border-black h-[11px]"
+        className={clsx([
+          'absolute z-0',
+          `border-l-${tickWidth} border-black`,
+        ])}
+        style={{
+          height: tickHeight,
+        }}
       />
     </div>
   );

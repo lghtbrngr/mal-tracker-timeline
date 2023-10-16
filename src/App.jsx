@@ -7,6 +7,22 @@ import { dayOf } from './util';
 import renderMonthMarkers from './components/renderMonthMarkers';
 import { useBoundingClientRect } from './hooks';
 
+function calculatePositions(sortedList, offset) {
+  // Calculate the horizontal and vertical positions of each anime in the sortedList
+  // Assumption: list is sorted from most recent (rightmost) to least recent
+  // x represents an offset in pixels; y represents a distinct channel, or row
+  if (sortedList.length === 0) return [];
+  const xOffsets = sortedList.map(anime => offset(dayOf(anime.list_status.updated_at)));
+  const positions = [{ x: xOffsets[0], y: 0 }];
+  for (let i = 1; i < xOffsets.length; i += 1) {
+    const x = xOffsets[i];
+    const wouldOverlap = x > xOffsets[i - 1] - IMAGE_WIDTH;
+    const y = wouldOverlap ? positions[i - 1].y + 1 : 0;
+    positions.push({ x, y });
+  }
+  return positions;
+}
+
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -40,10 +56,12 @@ function App() {
     };
   }
 
+  const positions = calculatePositions(sortedList, timelineData.offset);
+
   return (
     <div className="flex flex-col h-screen justify-center">
       <div className="relative border-b-2 border-black" ref={timelineRef}>
-        {sortedList.map(anime => <AnimeCard anime={anime} timelineData={timelineData} />)}
+        {sortedList.map((anime, i) => <AnimeCard anime={anime} position={positions[i]} />)}
         {sortedList.length > 0 && renderMonthMarkers(timelineData)}
       </div>
     </div>
