@@ -43,10 +43,11 @@ export default function AnimeCard({ anime, position }: AnimeCardProps) {
       <span
         className={clsx([
           'absolute z-0',
-          `border-l-${tickWidth} border-black`,
+          'border-black',
         ])}
         style={{
           height: tickHeight,
+          ['border-left-width' as string]: `${tickWidth}px`,
         }}
       />
     </div>
