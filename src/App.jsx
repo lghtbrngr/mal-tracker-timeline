@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAnimeList, selectCwList } from './state/animeSlice';
 import AnimeCard from './components/AnimeCard';
+import renderMonthMarkers from './components/renderMonthMarkers';
+import Header from './components/Header';
 import { IMAGE_WIDTH } from './constants';
 import { dayOf } from './util';
-import renderMonthMarkers from './components/renderMonthMarkers';
 import { useBoundingClientRect } from './hooks';
 
 function calculatePositions(sortedList, offset) {
@@ -59,10 +60,13 @@ function App() {
   const positions = calculatePositions(sortedList, timelineData.offset);
 
   return (
-    <div className="flex flex-col h-screen justify-center">
-      <div className="relative border-b-2 border-black" ref={timelineRef}>
-        {sortedList.map((anime, i) => <AnimeCard anime={anime} position={positions[i]} />)}
-        {sortedList.length > 0 && renderMonthMarkers(timelineData)}
+    <div className="flex flex-col">
+      <Header />
+      <div className="flex flex-col h-screen justify-center">
+        <div className="relative border-b-2 border-black" ref={timelineRef}>
+          {sortedList.map((anime, i) => <AnimeCard anime={anime} position={positions[i]} />)}
+          {sortedList.length > 0 && renderMonthMarkers(timelineData)}
+        </div>
       </div>
     </div>
   );
