@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-const malOauthUrl = 'https://myanimelist.net/v1/oauth2/authorize'; // TODO
+async function retrieveUrl(setUrl: any) {
+  const response = await fetch('/api/authUrl');
+  const url = await response.text();
+  setUrl(url);
+}
 
 export default function AuthenticationLink() {
+  const [url, setUrl] = useState(null);
+
+  useEffect(() => {
+    retrieveUrl(setUrl);
+  }, []);
+
+  if (url === null) {
+    return null;
+  }
+
   return (
-    <a className="underline" href={malOauthUrl}>Authenticate</a>
+    <a className="underline" href={url}>Authenticate</a>
   );
 }
