@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAnimeList, selectCwList } from './state/animeSlice';
-import AnimeCard from './components/AnimeCard';
-import renderMonthMarkers from './components/renderMonthMarkers';
-import Header from './components/Header';
-import { IMAGE_WIDTH } from './constants';
-import { dayOf } from './util';
-import { useBoundingClientRect } from './hooks';
+import { fetchAnimeList, selectCwList } from '../state/animeSlice';
+import AnimeCard from '../components/AnimeCard';
+import renderMonthMarkers from '../components/renderMonthMarkers';
+import Header from '../components/Header';
+import { IMAGE_WIDTH } from '../constants';
+import { dayOf } from '../util';
+import { useBoundingClientRect } from '../hooks';
 
 function calculatePositions(sortedList, offset) {
   // Calculate the horizontal and vertical positions of each anime in the sortedList
