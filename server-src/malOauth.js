@@ -13,7 +13,7 @@ const malClientSecret = process.env.MAL_CLIENT_SECRET;
 let challenge = null;
 
 function generateChallenge() {
-  // random string, 128 chars long, with specific characters allowed
+  // random string, up to 128 chars long, url-safe characters
   const r = randomBytes(64).toString('hex');
   return r.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
 }
@@ -27,7 +27,7 @@ exports.generateAuthUrl = (req, res) => {
   challenge = generateChallenge();
   result = result.concat(`&code_challenge=${challenge}`);
 
-  result = result.concat('&redirect_uri=/malAuthAllowed');
+  result = result.concat('&redirect_uri=localhost:3000/malAuthAllowed');
   res.send(result);
 };
 
