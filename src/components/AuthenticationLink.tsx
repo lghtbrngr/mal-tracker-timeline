@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 async function retrieveUrl(setUrl: any) {
   const response = await fetch('/api/authUrl');
@@ -8,9 +8,13 @@ async function retrieveUrl(setUrl: any) {
 
 export default function AuthenticationLink() {
   const [url, setUrl] = useState(null);
+  const calledApi = useRef(false);
 
   useEffect(() => {
-    retrieveUrl(setUrl);
+    if (!calledApi.current) {
+      calledApi.current = true;
+      retrieveUrl(setUrl);
+    }
   }, []);
 
   if (url === null) {
