@@ -5,9 +5,11 @@ const malOauth = require('./server-src/malOauth');
 
 const app = express();
 
+app.use(express.json());
+
 app.get('/api/animelist', animelist.retrieve);
 app.get('/api/authUrl', malOauth.generateAuthUrl);
-app.get('/api/completeMalAuth', malOauth.completeMalAuth);
+app.post('/api/completeMalAuth', malOauth.completeMalAuth);
 
 app.listen(3001, () => {
   console.log('Server running');

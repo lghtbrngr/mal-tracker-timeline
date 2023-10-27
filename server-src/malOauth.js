@@ -1,4 +1,5 @@
 const { randomBytes } = require('node:crypto');
+const fetch = require('node-fetch');
 
 const BASE_AUTH_URL = 'https://myanimelist.net/v1/oauth2/authorize?response_type=code';
 const TOKEN_URL = 'https://myanimelist.net/v1/oauth2/token';
@@ -27,7 +28,7 @@ exports.generateAuthUrl = (req, res) => {
   challenge = generateChallenge();
   result = result.concat(`&code_challenge=${challenge}`);
 
-  result = result.concat('&redirect_uri=localhost:3000/malAuthAllowed');
+  console.log(`challenge: ${challenge}`);
   res.send(result);
 };
 
@@ -39,10 +40,12 @@ exports.generateAuthUrl = (req, res) => {
 // in local memory).
 exports.completeMalAuth = async (req, res) => {
   if (challenge === null) {
-    console.warn('mal auth completion api called, but no challenge was recorded');
+    console.warn('mal auth completion api called, but no challenge was in memory');
     res.status(500).end();
     return;
   }
+  console.log(req.body.authCode);
+  console.log('calling MAL to generate access token');
   const response = await fetch(TOKEN_URL, {
     method: 'POST',
     headers: {
@@ -51,12 +54,13 @@ exports.completeMalAuth = async (req, res) => {
     body: JSON.stringify({
       client_id: malClientId,
       client_secret: malClientSecret,
-      code: req.query.authCode,
+      code: req.body.authCode,
       code_verifier: challenge,
       grant_type: 'authorization_code',
     }),
   });
   const json = await response.json();
+  challenge = null;
   console.log('MAL access token response, to put in .env file manually:');
   console.log(json);
 
