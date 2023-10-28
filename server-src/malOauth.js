@@ -15,7 +15,7 @@ let challenge = null;
 
 function generateChallenge() {
   // random string, up to 128 chars long, url-safe characters
-  const r = randomBytes(64).toString('hex');
+  const r = randomBytes(63).toString('hex');
   return r.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
 }
 
@@ -44,20 +44,24 @@ exports.completeMalAuth = async (req, res) => {
     res.status(500).end();
     return;
   }
-  console.log(req.body.authCode);
-  console.log('calling MAL to generate access token');
+
+  const params = {
+    client_id: malClientId,
+    client_secret: malClientSecret,
+    code: req.body.authCode,
+    code_verifier: challenge,
+    grant_type: 'authorization_code',
+  };
+  const body = Object.keys(params).map(key => (
+    `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+  )).join('&');
+
   const response = await fetch(TOKEN_URL, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: JSON.stringify({
-      client_id: malClientId,
-      client_secret: malClientSecret,
-      code: req.body.authCode,
-      code_verifier: challenge,
-      grant_type: 'authorization_code',
-    }),
+    body,
   });
   const json = await response.json();
   challenge = null;
