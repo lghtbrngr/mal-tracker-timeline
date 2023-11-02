@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
 async function completeMalAuth(authCode: string) {
@@ -11,26 +11,42 @@ async function completeMalAuth(authCode: string) {
       authCode,
     }),
   });
-  if (response.status === 500) {
+  if (response.status !== 200) {
     console.log('completeMalAuth api returned an error');
   }
+  return response;
+}
+
+function callOnce(f: Function) {
+  const isCalled = useRef(false);
+  useEffect(() => {
+    if (!isCalled.current) {
+      isCalled.current = true;
+      f();
+    }
+  }, []);
 }
 
 export default function MalAuthAllowed() {
+  const [status, setStatus] = useState<number | null>(null);
+
   const [queryParams] = useSearchParams();
-  const calledApi = useRef(false);
-  useEffect(() => {
+  callOnce(async () => {
     const authCode = queryParams.get('code');
-    if (authCode && !calledApi.current) {
+    if (authCode) {
       console.log('calling api completeMalAuth');
-      completeMalAuth(authCode);
-      calledApi.current = true;
+      const response = await completeMalAuth(authCode);
+      setStatus(response.status);
     }
-  }, [calledApi]);
+  });
+
+  const message = (status === null && 'Authenticating...')
+    || (status === 200 && 'The Anime Tracker is now connected to your MAL account.')
+    || 'Authentication failed.';
 
   return (
     <div className="flex flex-col justify-center items-center h-screen">
-      <p>The anime tracker is now connected to your MAL account.</p>
+      <p>{message}</p>
       <p>
         <Link to="/" className="underline">Return to app</Link>
       </p>
