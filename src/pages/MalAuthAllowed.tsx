@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { callOnce } from '../hooks';
 
 async function completeMalAuth(authCode: string) {
   const response = await fetch('/api/completeMalAuth', {
@@ -15,16 +16,6 @@ async function completeMalAuth(authCode: string) {
     console.log('completeMalAuth api returned an error');
   }
   return response;
-}
-
-function callOnce(f: Function) {
-  const isCalled = useRef(false);
-  useEffect(() => {
-    if (!isCalled.current) {
-      isCalled.current = true;
-      f();
-    }
-  }, []);
 }
 
 export default function MalAuthAllowed() {

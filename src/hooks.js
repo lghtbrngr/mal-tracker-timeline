@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 export function useBoundingClientRect() {
   const ref = useRef(null);
@@ -9,4 +9,18 @@ export function useBoundingClientRect() {
     }
   }, []);
   return [rect, ref];
+}
+
+/* Call a function exactly once after a component is mounted.
+ * Bypasses react dev mode double-rendering.
+ * Useful for things like api calls that alter state.
+ */
+export function callOnce(func) {
+  const isCalled = useRef(false);
+  useEffect(() => {
+    if (!isCalled.current) {
+      isCalled.current = true;
+      func();
+    }
+  }, []);
 }

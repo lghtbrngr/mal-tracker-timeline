@@ -6,7 +6,7 @@ titles toward one side and less-recently-viewed titles toward the other.
 Includes a backend server that integrates with the official MAL API to access user anime lists.
 
 # Getting Started
-1. create .env file from .env.example, filling out the missing fields
+1. create .env file from .env.example. Fill out MAL_USERNAME, MAL_CLIENT_ID, and MAL_CLIENT_SECRET.
 1. `npm install`
 1. `npm start` - starts two processes
 1. visit the web app at localhost:3000
