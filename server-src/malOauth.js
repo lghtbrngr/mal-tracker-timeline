@@ -1,5 +1,6 @@
 const { randomBytes } = require('node:crypto');
 const fetch = require('node-fetch');
+const { urlEncode } = require('./util');
 
 const BASE_AUTH_URL = 'https://myanimelist.net/v1/oauth2/authorize?response_type=code';
 const TOKEN_URL = 'https://myanimelist.net/v1/oauth2/token';
@@ -52,16 +53,13 @@ exports.completeMalAuth = async (req, res) => {
     code_verifier: challenge,
     grant_type: 'authorization_code',
   };
-  const body = Object.keys(params).map(key => (
-    `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
-  )).join('&');
 
   const response = await fetch(TOKEN_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body,
+    body: urlEncode(params),
   });
   const json = await response.json();
   challenge = null;

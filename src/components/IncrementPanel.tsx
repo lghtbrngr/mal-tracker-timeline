@@ -1,15 +1,21 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from '../constants';
-import { Anime } from '../types';
+import { Anime, incrementAnime } from '../types';
 
 interface IncrementPanelProps {
   anime: Anime;
 }
 
 export default function IncrementPanel({ anime }: IncrementPanelProps) {
+  const dispatch = useDispatch<any>();
+
   const episodesWatched = anime.list_status.num_episodes_watched;
   const handleIncrement = () => {
-    // TODO: call mal api from backend to increment
+    dispatch(incrementAnime({
+      episodesWatched: episodesWatched + 1,
+      animeId: anime.node.id,
+    }));
   };
 
   return (
