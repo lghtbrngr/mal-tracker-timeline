@@ -26,6 +26,11 @@ exports.retrieve = async (req, res) => {
 };
 
 exports.increment = async (req, res) => {
+  if (!malAccessToken) {
+    const message = 'Missing mal access token. Authenticate first.';
+    console.error(message);
+    res.status(404).send(message);
+  }
   const url = `https://api.myanimelist.net/v2/anime/${req.body.animeId}/my_list_status`;
   const response = await fetch(url, {
     method: 'PUT',
@@ -39,7 +44,4 @@ exports.increment = async (req, res) => {
   });
   const json = await response.json();
   res.status(response.status).send(json);
-
-  // TODO: handle errors
-  // if no auth token is found
 };

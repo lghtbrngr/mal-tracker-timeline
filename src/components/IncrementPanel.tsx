@@ -13,8 +13,8 @@ export default function IncrementPanel({ anime }: IncrementPanelProps) {
   const episodesWatched = anime.list_status.num_episodes_watched;
   const handleIncrement = () => {
     dispatch(incrementAnime({
-      episodesWatched: episodesWatched + 1,
       animeId: anime.node.id,
+      episodesWatched: episodesWatched + 1,
     }));
   };
 

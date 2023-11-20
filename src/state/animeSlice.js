@@ -15,6 +15,10 @@ export const incrementAnime = createAsyncThunk('anime/incrementAnime', async (ar
     },
     body: JSON.stringify(args),
   });
+  if (response.status !== 200) {
+    const errorMessage = await response.json();
+    throw new Error(errorMessage);
+  }
   return response.json();
 });
 
