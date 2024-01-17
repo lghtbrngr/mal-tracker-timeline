@@ -7,7 +7,7 @@ const malAccessToken = process.env.ACCESS_TOKEN;
 
 exports.retrieve = async (req, res) => {
   const url = `https://api.myanimelist.net/v2/users/${malUsername}/animelist?
-  status=watching&fields=list_status`;
+  status=watching&fields=list_status,num_episodes`;
 
   const options = {
     headers: {

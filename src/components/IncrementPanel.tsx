@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from '../constants';
+import clsx from 'clsx';
+import { IMAGE_HEIGHT } from '../constants';
 import { Anime, incrementAnime } from '../types';
 
 interface IncrementPanelProps {
@@ -20,14 +21,16 @@ export default function IncrementPanel({ anime }: IncrementPanelProps) {
 
   return (
     <span
-      className="border border-gray-400 border-l-0 bg-white grid"
+      className="border border-gray-400 border-l-0 bg-white grid min-w-[50px]"
       style={{
-        width: IMAGE_WIDTH,
         height: IMAGE_HEIGHT,
       }}
     >
-      <div className="text-center">
-        {`${episodesWatched} / ?`}
+      <div className={clsx([
+        'flex justify-center items-center',
+        'px-1 text-sm whitespace-nowrap',
+      ])}>
+        {`${episodesWatched} / ${anime.node.num_episodes}`}
       </div>
       <button
         className="hover:bg-green-700 border-t border-gray-400"
