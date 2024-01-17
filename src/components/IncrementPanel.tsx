@@ -21,7 +21,7 @@ export default function IncrementPanel({ anime }: IncrementPanelProps) {
 
   return (
     <span
-      className="border border-gray-400 border-l-0 bg-white grid min-w-[50px]"
+      className="border border-gray-400 border-l-0 bg-white grid min-w-[50px] z-20"
       style={{
         height: IMAGE_HEIGHT,
       }}
