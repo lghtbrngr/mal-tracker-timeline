@@ -34,23 +34,27 @@ export default function AnimeCard({ anime, position }: AnimeCardProps) {
         left: `${left}px`,
         top: `-${yOffset}px`,
       }}
-      onMouseOver={handleMouseOver}
-      onMouseOut={handleMouseOut}
     >
-      <img
-        src={anime.node.main_picture.medium}
-        width={IMAGE_WIDTH}
-        className={clsx([
-          'z-10 inline',
-          'border border-black',
-          'max-w-none',
-        ])}
-        style={{
-          height: IMAGE_HEIGHT,
-        }}
-        alt=""
-      />
-      {isHovering && <IncrementPanel anime={anime} />}
+      <div
+        className="flex"
+        onMouseOver={handleMouseOver}
+        onMouseOut={handleMouseOut}
+      >
+        <img
+          src={anime.node.main_picture.medium}
+          width={IMAGE_WIDTH}
+          className={clsx([
+            'z-10 inline',
+            'border border-black',
+            'max-w-none',
+          ])}
+          style={{
+            height: IMAGE_HEIGHT,
+          }}
+          alt=""
+        />
+        {isHovering && <IncrementPanel anime={anime} />}
+      </div>
       <span
         className={clsx([
           'absolute z-0',
