@@ -49,6 +49,7 @@
         "jsx-a11y/mouse-events-have-key-events": "off",
         "react/button-has-type": "off",
         "react/jsx-closing-bracket-location": "off",
+        "padded-blocks": "off",
         "no-param-reassign": [
             "error", {
                 "props": false
