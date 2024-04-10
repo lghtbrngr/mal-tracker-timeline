@@ -15,3 +15,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Hack to disable CRA error overlay, since they provide no
+ * official way to disable it. The real solution is ejecting
+ * from CRA.
+ * https://stackoverflow.com/questions/46589819/disable-error-overlay-in-development-mode */
+iframe {
+  display: none;
+}
