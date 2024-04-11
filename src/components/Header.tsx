@@ -1,4 +1,3 @@
-import React from 'react';
 import AuthenticationLink from './AuthenticationLink';
 
 export default function Header() {

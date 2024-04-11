@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import clsx from 'clsx';
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from '../constants';
 import { Anime } from '../types';

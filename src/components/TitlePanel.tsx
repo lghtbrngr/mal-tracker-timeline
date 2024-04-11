@@ -1,4 +1,3 @@
-import React from 'react';
 import clsx from 'clsx';
 import { Anime } from '../types';
 import { measureHeight } from '../hooks';

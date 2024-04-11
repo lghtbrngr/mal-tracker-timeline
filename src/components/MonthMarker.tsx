@@ -1,4 +1,3 @@
-import React from 'react';
 import { useBoundingClientRect } from '../hooks';
 
 interface MonthMarkerProps {

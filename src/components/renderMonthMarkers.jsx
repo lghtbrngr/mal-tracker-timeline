@@ -1,4 +1,3 @@
-import React from 'react';
 import { monthOf } from '../util';
 import MonthMarker from './MonthMarker';
 
