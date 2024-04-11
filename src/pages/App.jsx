@@ -64,7 +64,9 @@ function App() {
       <Header />
       <div className="flex flex-col h-full justify-center px-14">
         <div className="relative border-b-2 border-black" ref={timelineRef}>
-          {sortedList.map((anime, i) => <AnimeCard anime={anime} position={positions[i]} />)}
+          {sortedList.map((anime, i) => (
+            <AnimeCard key={anime.node.id} anime={anime} position={positions[i]} />
+          ))}
           {sortedList.length > 0 && renderMonthMarkers(timelineData)}
         </div>
       </div>

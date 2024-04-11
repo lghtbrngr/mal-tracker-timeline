@@ -75,7 +75,7 @@ export default function AnimeCard({ anime, position }: AnimeCardProps) {
         ])}
         style={{
           height: tickHeight,
-          ['border-left-width' as string]: `${tickWidth}px`,
+          borderLeftWidth: `${tickWidth}px`,
           left: imageOffset,
           top: IMAGE_HEIGHT,
         }}
