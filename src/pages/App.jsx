@@ -62,7 +62,7 @@ function App() {
   return (
     <div className="flex flex-col h-screen">
       <Header />
-      <div className="flex flex-col h-full justify-center px-14">
+      <div className="flex flex-col h-full justify-center px-14 bg-secondary">
         <div className="relative border-b-2 border-black" ref={timelineRef}>
           {sortedList.map((anime, i) => (
             <AnimeCard key={anime.node.id} anime={anime} position={positions[i]} />

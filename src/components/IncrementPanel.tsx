@@ -32,7 +32,7 @@ export default function IncrementPanel({ anime }: IncrementPanelProps) {
         {`${episodesWatched} / ${anime.node.num_episodes}`}
       </div>
       <button
-        className="hover:bg-green-700 border-t border-gray-400"
+        className="hover:bg-primary border-t border-gray-400"
         onClick={handleIncrement}
       >
         +
