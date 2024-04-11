@@ -8,10 +8,7 @@ interface TitlePanelProps {
 }
 
 export default function TitlePanel({ anime, width }: TitlePanelProps) {
-  console.log('rendering TitlePanel');
-  console.log(`anime.node.title: ${anime.node.title}`);
   const [height, ref] = measureHeight<HTMLDivElement>([width]);
-  console.log(`height: ${height}`);
   return (
     <div
       className={clsx([

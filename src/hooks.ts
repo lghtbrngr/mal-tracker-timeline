@@ -20,9 +20,7 @@ export function measure<T extends HTMLElement>(
   const [value, setValue] = useState<number>(0);
   useLayoutEffect(() => {
     const rect = ref.current?.getBoundingClientRect();
-    console.log('calling useLayoutEffect()');
     if (rect) {
-      console.log(rect?.[dim]);
       setValue(rect?.[dim] || 0);
     }
   }, deps);
