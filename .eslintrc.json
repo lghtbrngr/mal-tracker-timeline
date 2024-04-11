@@ -17,7 +17,8 @@
     },
     "plugins": [
         "react",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "eslint-plugin-only-warn"
     ],
     "rules": {
         "max-len": [
