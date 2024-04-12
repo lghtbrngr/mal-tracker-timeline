@@ -22,7 +22,6 @@ exports.retrieve = async (req, res) => {
     result = result.concat(json.data);
     nextUrl = json.paging.next;
   }
-  console.log(result);
   res.send(result);
 };
 
