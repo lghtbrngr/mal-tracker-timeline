@@ -10,7 +10,21 @@ export default function Body() {
       ])}>
         <Timeline />
       </div>
-      <div className="border-r border-black">Hello</div>
+      <div className="border-r border-black p-2">
+        <div className="flex justify-center pb-2">
+          <span>On Hold</span>
+        </div>
+        <table>
+          <tbody>
+            <tr>
+              <th>Title</th>
+              <th>Watched</th>
+              <th>On Hold Date</th>
+              <th>Actions</th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
