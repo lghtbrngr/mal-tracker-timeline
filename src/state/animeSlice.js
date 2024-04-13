@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   cwList: [],
+  onHoldList: [],
 };
 
 export const fetchAnimeList =
@@ -29,7 +30,8 @@ export const animeSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(fetchAnimeList.fulfilled, (state, action) => {
-        state.cwList = action.payload;
+        state.cwList = action.payload.watching;
+        state.onHoldList = action.payload.onHold;
       })
       .addCase(incrementAnime.fulfilled, (state, action) => {
         const index = state.cwList.findIndex(anime => anime.node.id === action.meta.arg.animeId);
@@ -39,5 +41,6 @@ export const animeSlice = createSlice({
 });
 
 export const selectCwList = state => state.anime.cwList;
+export const selectOnHoldList = state => state.anime.onHoldList;
 
 export default animeSlice.reducer;
