@@ -7,14 +7,14 @@ interface TableRowProps {
 }
 
 function TableRow({ anime }: TableRowProps) {
+  const watched = `${anime.list_status.num_episodes_watched} / ${anime.node.num_episodes}`;
+  const lastUpdated = anime.list_status.updated_at.split('T')[0];
   return (
     <tr>
-      <td>{anime.node.title}</td>
-      <td>
-        {`${anime.list_status.num_episodes_watched} / ${anime.node.num_episodes}`}
-      </td>
-      <td>{anime.list_status.updated_at}</td>
-      <td>
+      <td className="pr-2">{anime.node.title}</td>
+      <td className="pr-2 whitespace-nowrap">{watched}</td>
+      <td className="pr-2">{lastUpdated}</td>
+      <td className="pr-2">
         todo
       </td>
     </tr>
@@ -22,20 +22,25 @@ function TableRow({ anime }: TableRowProps) {
 }
 
 export default function OnHoldTable() {
-  const onHoldList = useSelector(selectOnHoldList);
-  console.log(onHoldList);
+  const unsorted: Anime[] = useSelector(selectOnHoldList);
+
+  const onHoldList = unsorted.toSorted((a, b) => (
+    Date.parse(b.list_status.updated_at) - Date.parse(a.list_status.updated_at)
+  ));
+  console.log(onHoldList[0]);
+
   return (
     <div className="border-r border-black p-2">
-      <div className="flex justify-center pb-2">
+      <div className="flex justify-center pb-2 font-bold">
         <span>On Hold</span>
       </div>
       <table>
         <tbody>
-          <tr>
-            <th>Title</th>
-            <th>Watched</th>
-            <th>Last Updated</th>
-            <th>Actions</th>
+          <tr className="whitespace-nowrap text-left">
+            <th className="text-sm pr-2">Title</th>
+            <th className="text-sm pr-2">Watched</th>
+            <th className="text-sm pr-2">Last Updated</th>
+            <th className="text-sm pr-2">Actions</th>
           </tr>
           {onHoldList.map((anime: Anime) => (
             <TableRow anime={anime} />
