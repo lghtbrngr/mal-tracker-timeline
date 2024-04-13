@@ -30,23 +30,25 @@ export default function OnHoldTable() {
   console.log(onHoldList[0]);
 
   return (
-    <div className="border-r border-black p-2">
+    <div className="border-r border-black p-2 overflow-hidden">
       <div className="flex justify-center pb-2 font-bold">
         <span>On Hold</span>
       </div>
-      <table>
-        <tbody>
-          <tr className="whitespace-nowrap text-left">
-            <th className="text-sm pr-2">Title</th>
-            <th className="text-sm pr-2">Watched</th>
-            <th className="text-sm pr-2">Last Updated</th>
-            <th className="text-sm pr-2">Actions</th>
-          </tr>
-          {onHoldList.map((anime: Anime) => (
-            <TableRow anime={anime} />
-          ))}
-        </tbody>
-      </table>
+      <div className="overflow-auto max-h-[90%]">
+        <table>
+          <tbody>
+            <tr className="whitespace-nowrap text-left">
+              <th className="text-sm pr-2">Title</th>
+              <th className="text-sm pr-2">Watched</th>
+              <th className="text-sm pr-2">Last Updated</th>
+              <th className="text-sm pr-2">Actions</th>
+            </tr>
+            {onHoldList.map((anime: Anime) => (
+              <TableRow anime={anime} />
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
