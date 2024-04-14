@@ -39,7 +39,7 @@ export default function OnHoldTable() {
           <tbody>
             <tr className="whitespace-nowrap text-left">
               <th className="text-sm pr-2">Title</th>
-              <th className="text-sm pr-2">Watched</th>
+              <th className="text-sm pr-2">Progress</th>
               <th className="text-sm pr-2">Last Updated</th>
               <th className="text-sm pr-2">Actions</th>
             </tr>
