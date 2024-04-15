@@ -30,11 +30,11 @@ export default function OnHoldTable() {
   console.log(onHoldList[0]);
 
   return (
-    <div className="border-r border-black p-2 overflow-hidden">
+    <div className="flex flex-col px-2 pt-2 overflow-hidden max-h-[50%]">
       <div className="flex justify-center pb-2 font-bold">
         <span>On Hold</span>
       </div>
-      <div className="overflow-auto max-h-[90%]">
+      <div className="flex-grow overflow-auto">
         <table>
           <tbody>
             <tr className="whitespace-nowrap text-left">
