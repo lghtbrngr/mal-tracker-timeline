@@ -52,6 +52,7 @@
         "react/button-has-type": "off",
         "react/jsx-closing-bracket-location": "off",
         "padded-blocks": "off",
+        "react/require-default-props": "off",
         "no-param-reassign": [
             "error", {
                 "props": false
