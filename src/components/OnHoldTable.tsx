@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import { selectOnHoldList } from '../state/animeSlice';
 import { Anime } from '../types';
 import Button from './Button';
+import Tooltip from './Tooltip';
 
 interface TableRowProps {
   anime: Anime,
@@ -16,8 +17,12 @@ function TableRow({ anime }: TableRowProps) {
       <td className="pr-2 whitespace-nowrap">{watched}</td>
       <td className="pr-2">{lastUpdated}</td>
       <td className="pr-2 flex gap-1">
-        <Button>CW</Button>
-        <Button>D</Button>
+        <Tooltip text="Move to Currently Watching">
+          <Button>CW</Button>
+        </Tooltip>
+        <Tooltip text="Move to Dropped">
+          <Button colors="bg-red-800 hover:bg-red-600">D</Button>
+        </Tooltip>
       </td>
     </tr>
   );
