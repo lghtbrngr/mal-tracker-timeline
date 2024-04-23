@@ -1,6 +1,6 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectOnHoldList } from '../state/animeSlice';
-import { Anime } from '../types';
+import { Anime, updateAnimeStatus } from '../types';
 import Button from './Button';
 import Tooltip from './Tooltip';
 
@@ -9,6 +9,15 @@ interface TableRowProps {
 }
 
 function TableRow({ anime }: TableRowProps) {
+  const dispatch = useDispatch<any>();
+
+  const handleCW = () => {
+    dispatch(updateAnimeStatus({
+      animeId: anime.node.id,
+      status: 'Currently Watching',
+    }));
+  };
+
   const watched = `${anime.list_status.num_episodes_watched} / ${anime.node.num_episodes}`;
   const lastUpdated = anime.list_status.updated_at.split('T')[0];
   return (
@@ -18,7 +27,7 @@ function TableRow({ anime }: TableRowProps) {
       <td className="pr-2">{lastUpdated}</td>
       <td className="pr-2 flex gap-1">
         <Tooltip text="Move to Currently Watching">
-          <Button>CW</Button>
+          <Button onClick={handleCW}>CW</Button>
         </Tooltip>
         <Tooltip text="Move to Dropped">
           <Button colors="bg-red-800 hover:bg-red-600">D</Button>
