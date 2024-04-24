@@ -14,7 +14,7 @@ function TableRow({ anime }: TableRowProps) {
   const handleCW = () => {
     dispatch(updateAnimeStatus({
       animeId: anime.node.id,
-      status: 'Currently Watching',
+      status: 'watching',
     }));
   };
 
@@ -43,7 +43,6 @@ export default function OnHoldTable() {
   const onHoldList = unsorted.toSorted((a, b) => (
     Date.parse(b.list_status.updated_at) - Date.parse(a.list_status.updated_at)
   ));
-  console.log(onHoldList[0]);
 
   return (
     <div className="flex flex-col px-2 pt-2 overflow-hidden max-h-[50%]">

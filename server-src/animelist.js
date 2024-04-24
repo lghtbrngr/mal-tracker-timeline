@@ -33,7 +33,7 @@ exports.retrieve = async (req, res) => {
   });
 };
 
-exports.increment = async (req, res) => {
+async function putMyListStatus(req, res, payload) {
   if (!malAccessToken) {
     const message = 'Missing mal access token. Authenticate first.';
     console.error(message);
@@ -46,10 +46,20 @@ exports.increment = async (req, res) => {
       Authorization: `Bearer ${malAccessToken}`,
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: urlEncode({
-      num_watched_episodes: req.body.episodesWatched,
-    }),
+    body: urlEncode(payload),
   });
   const json = await response.json();
   res.status(response.status).send(json);
+}
+
+exports.increment = async (req, res) => {
+  putMyListStatus(req, res, {
+    num_watched_episodes: req.body.episodesWatched,
+  });
+};
+
+exports.updateStatus = async (req, res) => {
+  putMyListStatus(req, res, {
+    status: req.body.status,
+  });
 };
