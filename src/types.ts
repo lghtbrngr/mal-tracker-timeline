@@ -9,4 +9,12 @@ export type AnimeStatus = 'watching' | 'completed' | 'on_hold' | 'dropped' | 'pl
 
 /* js-to-ts type shims */
 export const incrementAnime = incrementAnimeJs as AsyncThunk<any, any, any>;
-export const updateAnimeStatus = updateAnimeStatusJs as AsyncThunk<any, any, any>;
+
+interface UpdateAnimeStatusThunkArg {
+  animeId: string;
+  status: AnimeStatus;
+}
+
+export const updateAnimeStatus = updateAnimeStatusJs as
+  AsyncThunk<any, unknown, any> as
+  AsyncThunk<any, UpdateAnimeStatusThunkArg, any>;
