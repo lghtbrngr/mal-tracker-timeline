@@ -59,7 +59,7 @@ export default function OnHoldTable() {
               <th className="text-sm pr-2">Actions</th>
             </tr>
             {onHoldList.map((anime: Anime) => (
-              <TableRow anime={anime} />
+              <TableRow key={anime.node.id} anime={anime} />
             ))}
           </tbody>
         </table>
