@@ -51,8 +51,8 @@ export const animeSlice = createSlice({
         const index =
           state.onHoldList.findIndex(anime => anime.node.id === animeId);
         const anime = state.onHoldList.splice(index, 1)[0];
-        // TODO: would be better to update the last updated date too, like in incrementAnime
-        if (status === 'Currently Watching') {
+        anime.list_status = action.payload;
+        if (status === 'watching') {
           state.cwList.push(anime);
         }
       });
