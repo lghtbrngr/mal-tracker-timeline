@@ -12,8 +12,8 @@ export default function Button({ onClick, colors, className, children }: ButtonP
     <button
       onClick={onClick}
       className={clsx([
-        'bg-primary text-white px-1 text-sm',
-        colors || 'bg-primary hover:bg-primaryLight',
+        'px-1 text-sm border',
+        colors || 'border-primary hover:bg-primaryLight hover:text-white',
         className,
       ])}>
       {children}

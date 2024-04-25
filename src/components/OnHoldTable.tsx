@@ -32,7 +32,7 @@ function TableRow({ anime }: TableRowProps) {
         <Tooltip text="Move to Dropped">
           <Button
             onClick={() => handleUpdateStatus('dropped')}
-            colors="bg-red-800 hover:bg-red-600">
+            colors="border-red-800 hover:bg-red-600 hover:text-white">
             D
           </Button>
         </Tooltip>
