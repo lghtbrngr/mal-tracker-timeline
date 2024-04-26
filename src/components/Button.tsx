@@ -7,6 +7,7 @@ interface ButtonProps {
   className?: string;
   children?: ReactNode;
 }
+
 export default function Button({ onClick, colors, className, children }: ButtonProps) {
   return (
     <button
