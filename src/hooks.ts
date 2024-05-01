@@ -35,6 +35,20 @@ export function measureWidth<T extends HTMLElement>(deps: React.DependencyList =
   return measure<T>('width', deps);
 }
 
+export function useWindowSize() {
+  const [size, setSize] = useState([0, 0]);
+
+  useLayoutEffect(() => {
+    function updateSize() {
+      setSize([window.innerWidth, window.innerHeight]);
+    }
+    window.addEventListener('resize', updateSize);
+    updateSize();
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+  return size;
+}
+
 /* Call a function exactly once after a component is mounted.
  * Bypasses react dev mode double-rendering.
  * Useful for things like api calls that alter state.

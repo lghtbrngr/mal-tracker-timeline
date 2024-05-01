@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useBoundingClientRect } from '../hooks';
+import { measureWidth, useWindowSize } from '../hooks';
 import AnimeCard from './AnimeCard';
 import renderMonthMarkers from './renderMonthMarkers';
 import { IMAGE_WIDTH } from '../constants';
@@ -23,8 +23,8 @@ function calculatePositions(sortedList, offset) {
 }
 
 export default function Timeline() {
-  const [rect, timelineRef] = useBoundingClientRect();
-  const timelineWidth = rect?.width || 1;
+  const windowWidth = useWindowSize()[0];
+  const [timelineWidth, timelineRef] = measureWidth([windowWidth]);
 
   const cwList = useSelector(selectCwList);
 
