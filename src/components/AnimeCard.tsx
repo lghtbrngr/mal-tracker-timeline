@@ -5,6 +5,7 @@ import { Anime } from '../types';
 import IncrementPanel from './IncrementPanel';
 import TitlePanel from './TitlePanel';
 import { measureWidth } from '../hooks';
+import DateLabel from './DateLabel';
 
 const BOTTOM_PADDING = 10;
 const ROW_HEIGHT = IMAGE_HEIGHT + BOTTOM_PADDING;
@@ -35,7 +36,7 @@ export default function AnimeCard({ anime, position }: AnimeCardProps) {
     <div
       className="absolute"
       style={{
-        // Upper left corner of image
+        // This defines where the upper left corner of the image will be
         left: `${left}px`,
         top: `-${yOffset}px`,
       }}
@@ -68,9 +69,9 @@ export default function AnimeCard({ anime, position }: AnimeCardProps) {
           {isHovering && <IncrementPanel anime={anime} />}
         </div>
       </div>
-      <span
+      <div
         className={clsx([
-          'absolute z-0',
+          'absolute',
           'border-black',
         ])}
         style={{
@@ -79,7 +80,9 @@ export default function AnimeCard({ anime, position }: AnimeCardProps) {
           left: imageOffset,
           top: IMAGE_HEIGHT,
         }}
-      />
+      >
+        {isHovering && <DateLabel anime={anime} top={tickHeight} />}
+      </div>
     </div>
   );
 }
