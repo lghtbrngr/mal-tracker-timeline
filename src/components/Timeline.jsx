@@ -45,6 +45,12 @@ export default function Timeline() {
 
   const sourceCWList = useSelector(selectCwList);
 
+  if (sourceCWList.length === 0) {
+    return (
+      <div className="flex justify-center">No anime found in currently watching list</div>
+    );
+  }
+
   const [cwList, flushList] = sortAndSplitByCutoffDate(sourceCWList);
 
   let timelineData = {};
