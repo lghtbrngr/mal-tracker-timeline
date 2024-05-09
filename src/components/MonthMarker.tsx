@@ -2,18 +2,15 @@ import { useBoundingClientRect } from '../hooks';
 
 interface MonthMarkerProps {
   month: Date;
-  timelineData: {
-    leastRecentDate: Date;
-    offset: (d: Date) => number;
-  };
+  findOffset: (d: Date) => number;
 }
 
-export default function MonthMarker({ month, timelineData }: MonthMarkerProps) {
+export default function MonthMarker({ month, findOffset }: MonthMarkerProps) {
   const [rect, labelRef] = useBoundingClientRect() as any;
   const labelOffset = rect ? rect.width / 2 : 0;
 
   const label = `${month.getMonth() + 1}-${month.getFullYear()}`;
-  const offset = timelineData.offset(month);
+  const offset = findOffset(month);
   return (
     <span
       className="absolute border-l border-black h-3 -top-[5px]"

@@ -39,6 +39,22 @@ function calculatePositions(cwList, offset) {
   return positions;
 }
 
+function computeTimelineSpan(cwList, timelineWidth) {
+  // Figure the range of days the timeline will represent, and return a function that can
+  // convert a date within the timeline's range into the corresponding pixel offset from the
+  // beginning of the timeline.
+  // Assumption: list is sorted from most recent (rightmost) to least recent
+  const leastRecentDate = dayOf(cwList[cwList.length - 1].list_status.updated_at);
+  const timespan = dayOf(new Date()) - leastRecentDate;
+  const horizontalPadding = IMAGE_WIDTH; // don't cut off image at either side of the timeline
+  const leftPadding = horizontalPadding / 2;
+  const findOffset = (date) => {
+    const percentage = (date.valueOf() - leastRecentDate.valueOf()) / timespan;
+    return percentage * (timelineWidth - horizontalPadding) + leftPadding;
+  };
+  return [findOffset, leastRecentDate];
+}
+
 /* Assumption: currently watching list is loaded and has at least one entry */
 export default function Timeline() {
   const windowWidth = useWindowSize()[0];
@@ -47,30 +63,15 @@ export default function Timeline() {
   const sourceCWList = useSelector(selectCwList);
 
   const [cwList, flushList] = sortAndSplitByCutoffDate(sourceCWList);
-
-  let timelineData = {};
-  if (cwList.length > 0) {
-    const leastRecentDate = dayOf(cwList[cwList.length - 1].list_status.updated_at);
-    const timespan = dayOf(new Date()) - leastRecentDate;
-    const horizontalPadding = IMAGE_WIDTH; // don't cut off image at either side of the timeline
-    const leftPadding = horizontalPadding / 2;
-    timelineData = {
-      leastRecentDate,
-      offset: (date) => {
-        const percentage = (date.valueOf() - leastRecentDate.valueOf()) / timespan;
-        return percentage * (timelineWidth - horizontalPadding) + leftPadding;
-      },
-    };
-  }
-
-  const positions = calculatePositions(cwList, timelineData.offset);
+  const [findOffset, leastRecentDate] = computeTimelineSpan(cwList, timelineWidth);
+  const positions = calculatePositions(cwList, findOffset);
 
   return (
     <div className="relative border-b-2 border-black" ref={timelineRef}>
       {cwList.map((anime, i) => (
         <AnimeCard key={anime.node.id} anime={anime} position={positions[i]} />
       ))}
-      {cwList.length > 0 && renderMonthMarkers(timelineData)}
+      {renderMonthMarkers(leastRecentDate, findOffset)}
     </div>
   );
 }

@@ -14,13 +14,13 @@ function monthsInInterval(firstDate, finalDate) {
   return months;
 }
 
-export default function renderMonthMarkers(timelineData) {
-  const interval = monthsInInterval(timelineData.leastRecentDate, new Date());
+export default function renderMonthMarkers(leastRecentDate, findOffset) {
+  const interval = monthsInInterval(leastRecentDate, new Date());
   return interval.map(month => (
     <MonthMarker
       key={month.valueOf()}
       month={month}
-      timelineData={timelineData}
+      findOffset={findOffset}
     />
   ));
 }
