@@ -39,17 +39,12 @@ function calculatePositions(cwList, offset) {
   return positions;
 }
 
+/* Assumption: currently watching list is loaded and has at least one entry */
 export default function Timeline() {
   const windowWidth = useWindowSize()[0];
   const [timelineWidth, timelineRef] = measureWidth([windowWidth]);
 
   const sourceCWList = useSelector(selectCwList);
-
-  if (sourceCWList.length === 0) {
-    return (
-      <div className="flex justify-center">No anime found in currently watching list</div>
-    );
-  }
 
   const [cwList, flushList] = sortAndSplitByCutoffDate(sourceCWList);
 
