@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { useMemo } from 'react';
 import { measureWidth, useWindowSize } from '../hooks';
 import AnimeCard from './AnimeCard';
 import renderMonthMarkers from './renderMonthMarkers';
@@ -23,12 +24,12 @@ function sortAndSplitByCutoffDate(sourceCWList) {
   return [cwList, flushList];
 }
 
-function calculatePositions(cwList, offset) {
+function calculatePositions(cwList, findOffset) {
   // Calculate the horizontal and vertical positions of each anime in the cwList
   // Assumption: list is sorted from most recent (rightmost) to least recent
   // x represents an offset in pixels; y represents a distinct channel, or row
   if (cwList.length === 0) return [];
-  const xOffsets = cwList.map(anime => offset(dayOf(anime.list_status.updated_at)));
+  const xOffsets = cwList.map(anime => findOffset(dayOf(anime.list_status.updated_at)));
   const positions = [{ x: xOffsets[0], y: 0 }];
   for (let i = 1; i < xOffsets.length; i += 1) {
     const x = xOffsets[i];
@@ -62,9 +63,12 @@ export default function Timeline() {
 
   const sourceCWList = useSelector(selectCwList);
 
-  const [cwList, flushList] = sortAndSplitByCutoffDate(sourceCWList);
-  const [findOffset, leastRecentDate] = computeTimelineSpan(cwList, timelineWidth);
-  const positions = calculatePositions(cwList, findOffset);
+  const [cwList, flushList] = useMemo(() => sortAndSplitByCutoffDate(sourceCWList), [sourceCWList]);
+  const [findOffset, leastRecentDate, positions] = useMemo(() => {
+    const [findOffset1, leastRecentDate1] = computeTimelineSpan(cwList, timelineWidth);
+    const positions1 = calculatePositions(cwList, findOffset1);
+    return [findOffset1, leastRecentDate1, positions1];
+  }, [cwList, timelineWidth]);
 
   return (
     <div className="relative border-b-2 border-black" ref={timelineRef}>
