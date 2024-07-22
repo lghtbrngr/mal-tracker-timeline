@@ -1,23 +1,21 @@
-import { useState } from 'react';
 import clsx from 'clsx';
+import { useState } from 'react';
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from '../constants';
 import { Anime } from '../types';
-import IncrementPanel from './IncrementPanel';
-import TitlePanel from './TitlePanel';
-import { measureWidth } from '../hooks';
 import DateLabel from './DateLabel';
+import AnimeCard from './AnimeCard';
 
 const BOTTOM_PADDING = 10;
 const ROW_HEIGHT = IMAGE_HEIGHT + BOTTOM_PADDING;
 
-interface AnimeCardProps {
+interface PositionedAnimeCardProps {
   anime: Anime;
 
   // x is in pixels and y represents a row number
   position: { x: number, y: number };
 }
 
-export default function PositionedAnimeCard({ anime, position }: AnimeCardProps) {
+export default function PositionedAnimeCard({ anime, position }: PositionedAnimeCardProps) {
   const yOffset = ROW_HEIGHT * (position.y + 1);
   const tickHeight = ROW_HEIGHT * position.y + BOTTOM_PADDING;
   const tickWidth = 2;
@@ -27,10 +25,7 @@ export default function PositionedAnimeCard({ anime, position }: AnimeCardProps)
   const left = imageCenter - imageOffset;
 
   const [isHovering, setIsHovering] = useState(false);
-  const handleMouseOver = () => setIsHovering(true);
-  const handleMouseOut = () => setIsHovering(false);
-
-  const [flexWidth, flexRef] = measureWidth<HTMLDivElement>([isHovering]);
+  const handleHoverChange = (b: boolean) => setIsHovering(b);
 
   return (
     <div
@@ -41,34 +36,7 @@ export default function PositionedAnimeCard({ anime, position }: AnimeCardProps)
         top: `-${yOffset}px`,
       }}
     >
-      <div
-        className={clsx([
-          'relative', // positioning ancestor for TitlePanel
-        ])}
-        onMouseOver={handleMouseOver}
-        onMouseOut={handleMouseOut}
-      >
-        {isHovering && <TitlePanel anime={anime} width={flexWidth} />}
-        <div
-          className="flex"
-          ref={flexRef}
-        >
-          <img
-            src={anime.node.main_picture.medium}
-            width={IMAGE_WIDTH}
-            className={clsx([
-              'z-10 inline',
-              'border border-black',
-              'max-w-none',
-            ])}
-            style={{
-              height: IMAGE_HEIGHT,
-            }}
-            alt=""
-          />
-          {isHovering && <IncrementPanel anime={anime} />}
-        </div>
-      </div>
+      <AnimeCard anime={anime} onHoverChange={handleHoverChange} />
       <div
         className={clsx([
           'absolute',

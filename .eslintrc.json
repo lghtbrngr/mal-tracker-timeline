@@ -55,6 +55,7 @@
         "react/require-default-props": "off",
         "react/jsx-wrap-multilines": "off",
         "react/jsx-closing-tag-location": "off",
+        "@typescript-eslint/no-unused-expressions": "off",
         "no-param-reassign": [
             "error", {
                 "props": false
