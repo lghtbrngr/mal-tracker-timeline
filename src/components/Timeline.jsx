@@ -71,7 +71,7 @@ export default function Timeline() {
   }, [cwList, timelineWidth]);
 
   return (
-    <div className="relative border-b-2 border-black" ref={timelineRef}>
+    <div className="border-b-2 border-black flex-grow relative" ref={timelineRef}>
       {cwList.map((anime, i) => (
         <AnimeCard key={anime.node.id} anime={anime} position={positions[i]} />
       ))}
