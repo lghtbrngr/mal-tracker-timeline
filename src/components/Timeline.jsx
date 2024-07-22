@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
 import { measureWidth, useWindowSize } from '../hooks';
-import AnimeCard from './AnimeCard';
+import PositionedAnimeCard from './PositionedAnimeCard';
 import renderMonthMarkers from './renderMonthMarkers';
 import { IMAGE_WIDTH } from '../constants';
 import { dayOf } from '../util';
@@ -79,7 +79,7 @@ export default function Timeline() {
     </div> */}
     <div className="border-b-2 border-black flex-grow relative" ref={timelineRef}>
       {cwList.map((anime, i) => (
-        <AnimeCard key={anime.node.id} anime={anime} position={positions[i]} />
+        <PositionedAnimeCard key={anime.node.id} anime={anime} position={positions[i]} />
       ))}
       {renderMonthMarkers(leastRecentDate, findOffset)}
     </div>

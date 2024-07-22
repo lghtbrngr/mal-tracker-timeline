@@ -17,7 +17,7 @@ interface AnimeCardProps {
   position: { x: number, y: number };
 }
 
-export default function AnimeCard({ anime, position }: AnimeCardProps) {
+export default function PositionedAnimeCard({ anime, position }: AnimeCardProps) {
   const yOffset = ROW_HEIGHT * (position.y + 1);
   const tickHeight = ROW_HEIGHT * position.y + BOTTOM_PADDING;
   const tickWidth = 2;
