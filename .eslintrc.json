@@ -53,6 +53,8 @@
         "react/jsx-closing-bracket-location": "off",
         "padded-blocks": "off",
         "react/require-default-props": "off",
+        "react/jsx-wrap-multilines": "off",
+        "react/jsx-closing-tag-location": "off",
         "no-param-reassign": [
             "error", {
                 "props": false

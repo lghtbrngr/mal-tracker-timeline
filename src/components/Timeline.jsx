@@ -70,12 +70,18 @@ export default function Timeline() {
     return [findOffset1, leastRecentDate1, positions1];
   }, [cwList, timelineWidth]);
 
-  return (
+  return (<>
+    {/* <div className="border border-black flex flex-col">
+      <span>Flushlist</span>
+      {flushList.map((anime) => (
+        <AnimeCard key={anime.node.id} anime={anime} />
+      ))}
+    </div> */}
     <div className="border-b-2 border-black flex-grow relative" ref={timelineRef}>
       {cwList.map((anime, i) => (
         <AnimeCard key={anime.node.id} anime={anime} position={positions[i]} />
       ))}
       {renderMonthMarkers(leastRecentDate, findOffset)}
     </div>
-  );
+  </>);
 }

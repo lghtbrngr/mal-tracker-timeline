@@ -11,7 +11,7 @@ export default function Body() {
     <div className="flex-grow">
       <div className={clsx([
         'h-1/2',
-        'flex items-end',
+        'flex items-end gap-6',
         'pb-14 px-14 border-b border-black',
       ])}>
         {cwList.length > 0 ? (
