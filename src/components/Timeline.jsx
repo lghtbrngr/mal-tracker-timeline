@@ -6,6 +6,7 @@ import renderMonthMarkers from './renderMonthMarkers';
 import { IMAGE_WIDTH } from '../constants';
 import { dayOf } from '../util';
 import { selectCwList } from '../state/animeSlice';
+import AnimeCard from './AnimeCard';
 
 function sortAndSplitByCutoffDate(sourceCWList) {
   const cwList = sourceCWList.slice();
@@ -71,12 +72,12 @@ export default function Timeline() {
   }, [cwList, timelineWidth]);
 
   return (<>
-    {/* <div className="border border-black flex flex-col">
+    <div className="border border-black flex flex-col">
       <span>Flushlist</span>
       {flushList.map((anime) => (
         <AnimeCard key={anime.node.id} anime={anime} />
       ))}
-    </div> */}
+    </div>
     <div className="border-b-2 border-black flex-grow relative" ref={timelineRef}>
       {cwList.map((anime, i) => (
         <PositionedAnimeCard key={anime.node.id} anime={anime} position={positions[i]} />
