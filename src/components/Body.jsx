@@ -7,7 +7,7 @@ export default function Body() {
   const cwList = useSelector(selectCwList);
 
   return (
-    <div className="flex-grow">
+    <div className="flex-grow min-h-0">
       {cwList.length > 0 ? (
         <Timeline />
       ) : (
