@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { useSelector } from 'react-redux';
 import Timeline from './Timeline';
 import OnHoldTable from './OnHoldTable';
@@ -9,17 +8,11 @@ export default function Body() {
 
   return (
     <div className="flex-grow">
-      <div className={clsx([
-        'h-1/2',
-        'flex items-end gap-6',
-        'pb-14 px-14 border-b border-black',
-      ])}>
-        {cwList.length > 0 ? (
-          <Timeline />
-        ) : (
-          <div className="flex justify-center">No anime found in currently watching list</div>
-        )}
-      </div>
+      {cwList.length > 0 ? (
+        <Timeline />
+      ) : (
+        <div className="flex justify-center">No anime found in currently watching list</div>
+      )}
       <OnHoldTable />
     </div>
   );

@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
+import clsx from 'clsx';
 import { measureWidth, useWindowSize } from '../hooks';
 import PositionedAnimeCard from './PositionedAnimeCard';
 import renderMonthMarkers from './renderMonthMarkers';
@@ -71,18 +72,24 @@ export default function Timeline() {
     return [findOffset1, leastRecentDate1, positions1];
   }, [cwList, timelineWidth]);
 
-  return (<>
-    <div className="border border-black flex flex-col">
-      <span>Flushlist</span>
-      {flushList.map((anime) => (
-        <AnimeCard key={anime.node.id} anime={anime} />
-      ))}
+  return (
+    <div className={clsx([
+      'h-1/2',
+      'flex items-end gap-6',
+      'pb-14 px-14 border-b border-black',
+    ])}>
+      <div className="border border-black flex flex-col">
+        <span>Flushlist</span>
+        {flushList.map((anime) => (
+          <AnimeCard key={anime.node.id} anime={anime} />
+        ))}
+      </div>
+      <div className="border-b-2 border-black flex-grow relative" ref={timelineRef}>
+        {cwList.map((anime, i) => (
+          <PositionedAnimeCard key={anime.node.id} anime={anime} position={positions[i]} />
+        ))}
+        {renderMonthMarkers(leastRecentDate, findOffset)}
+      </div>
     </div>
-    <div className="border-b-2 border-black flex-grow relative" ref={timelineRef}>
-      {cwList.map((anime, i) => (
-        <PositionedAnimeCard key={anime.node.id} anime={anime} position={positions[i]} />
-      ))}
-      {renderMonthMarkers(leastRecentDate, findOffset)}
-    </div>
-  </>);
+  );
 }
