@@ -78,7 +78,7 @@ export default function Timeline() {
       'flex items-end gap-6',
       'pb-14 px-14 border-b border-black',
     ])}>
-      <div className="border border-black flex flex-col">
+      <div className="border border-black flex flex-col self-stretch">
         <span>Flushlist</span>
         {flushList.map((anime) => (
           <AnimeCard key={anime.node.id} anime={anime} />
