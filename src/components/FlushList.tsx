@@ -4,24 +4,32 @@ import { measureHeight } from '../hooks';
 import { Anime } from '../types';
 import AnimeCard from './AnimeCard';
 
+function computeContainerWidth(containerHeight: number, listLength: number) {
+  /* Each item will have a padding of ANIME_CARD_BOTTOM_PADDING underneath it.
+   * For the first item in a given column, it will be from the container's bottom padding.
+   * For each subsequent item in the column, it will be the flex gap value. */
+  const itemHeight = IMAGE_HEIGHT + ANIME_CARD_BOTTOM_PADDING;
+  const itemsPerCol = Math.trunc(containerHeight / itemHeight);
+  const colCount = Math.ceil(listLength / itemsPerCol) || 1;
+
+  const colsWidth = colCount * IMAGE_WIDTH;
+  // there are horizontal gaps between columns as well
+  const xGapsWidth = ANIME_CARD_BOTTOM_PADDING * (colCount - 1);
+  const bordersWidth = 2;
+  return colsWidth + xGapsWidth + bordersWidth;
+}
+
 interface FlushListProps {
   list: Anime[];
 }
 
 export default function FlushList({ list }: FlushListProps) {
-  const flushList = list.concat(list).slice(0, 9);
-  // const flushList = list;
-
   const [containerHeight, containerRef] = measureHeight<HTMLDivElement>();
-  console.log(containerHeight);
 
-  // We have to manually set the flex container's width because flex-col flex-wrap
-  // containers don't set their width properly. It's a known issue.
-  const listHeight = containerHeight - ANIME_CARD_BOTTOM_PADDING;
-  const itemsPerCol = Math.trunc(listHeight / IMAGE_HEIGHT);
-  const colCount = Math.ceil(flushList.length / itemsPerCol) || 1;
-  const width = colCount * IMAGE_WIDTH + 2; // 2 for border
-  console.log(itemsPerCol, colCount, width);
+  /* We have to manually set the flex container's width because flex-col flex-wrap
+   * containers don't set their width properly. It's a known issue. */
+  const width = computeContainerWidth(containerHeight, list.length);
+  const padding = `${ANIME_CARD_BOTTOM_PADDING}px`;
 
   return (
     <div
@@ -33,12 +41,15 @@ export default function FlushList({ list }: FlushListProps) {
           'border border-black',
           'flex-grow min-h-0',
           'flex flex-col-reverse flex-wrap-reverse',
-          'pb-[10px]',
         ])}
-        style={{ width: `${width}px` }}
+        style={{
+          width: `${width}px`,
+          paddingBottom: padding,
+          gap: padding,
+        }}
         ref={containerRef}
       >
-        {flushList.map((anime) => (
+        {list.map((anime) => (
           <AnimeCard key={anime.node.id} anime={anime} />
         ))}
       </div>
