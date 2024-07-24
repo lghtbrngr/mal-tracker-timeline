@@ -8,7 +8,7 @@ interface FlushListProps {
 }
 
 export default function FlushList({ list }: FlushListProps) {
-  const flushList = list.concat(list);
+  const flushList = list.concat(list).slice(0, 9);
   // const flushList = list;
 
   const [listHeight, listRef] = measureHeight<HTMLDivElement>();
@@ -23,13 +23,18 @@ export default function FlushList({ list }: FlushListProps) {
 
   return (
     <div
-      className="border border-black flex flex-col flex-wrap self-stretch"
-      style={{ width: `${width}px` }}
-      ref={listRef}
+      className="self-stretch flex flex-col border border-black"
     >
-      {flushList.map((anime) => (
-        <AnimeCard key={anime.node.id} anime={anime} />
-      ))}
+      <span>Flush List</span>
+      <div
+        className="border border-black flex flex-col flex-wrap flex-grow min-h-0"
+        style={{ width: `${width}px` }}
+        ref={listRef}
+      >
+        {flushList.map((anime) => (
+          <AnimeCard key={anime.node.id} anime={anime} />
+        ))}
+      </div>
     </div>
   );
 }
