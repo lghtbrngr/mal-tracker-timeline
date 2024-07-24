@@ -1,12 +1,11 @@
 import clsx from 'clsx';
 import { useState } from 'react';
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from '../constants';
+import { ANIME_CARD_BOTTOM_PADDING, IMAGE_HEIGHT, IMAGE_WIDTH } from '../constants';
 import { Anime } from '../types';
 import DateLabel from './DateLabel';
 import AnimeCard from './AnimeCard';
 
-const BOTTOM_PADDING = 10;
-const ROW_HEIGHT = IMAGE_HEIGHT + BOTTOM_PADDING;
+const ROW_HEIGHT = IMAGE_HEIGHT + ANIME_CARD_BOTTOM_PADDING;
 
 interface PositionedAnimeCardProps {
   anime: Anime;
@@ -17,7 +16,7 @@ interface PositionedAnimeCardProps {
 
 export default function PositionedAnimeCard({ anime, position }: PositionedAnimeCardProps) {
   const yOffset = ROW_HEIGHT * (position.y + 1);
-  const tickHeight = ROW_HEIGHT * position.y + BOTTOM_PADDING;
+  const tickHeight = ROW_HEIGHT * position.y + ANIME_CARD_BOTTOM_PADDING;
   const tickWidth = 2;
   const imageOffset = (IMAGE_WIDTH - tickWidth) / 2;
 
