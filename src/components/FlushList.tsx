@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from '../constants';
 import { measureHeight } from '../hooks';
 import { Anime } from '../types';
@@ -27,7 +28,11 @@ export default function FlushList({ list }: FlushListProps) {
     >
       <span>Flush List</span>
       <div
-        className="border border-black flex flex-col flex-wrap flex-grow min-h-0"
+        className={clsx([
+          'border border-black',
+          'flex-grow min-h-0',
+          'flex flex-col-reverse flex-wrap-reverse',
+        ])}
         style={{ width: `${width}px` }}
         ref={listRef}
       >
