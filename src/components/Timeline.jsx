@@ -8,6 +8,7 @@ import { IMAGE_WIDTH } from '../constants';
 import { dayOf } from '../util';
 import { selectCwList } from '../state/animeSlice';
 import AnimeCard from './AnimeCard';
+import FlushList from './FlushList';
 
 function sortAndSplitByCutoffDate(sourceCWList) {
   const cwList = sourceCWList.slice();
@@ -78,12 +79,7 @@ export default function Timeline() {
       'flex items-end gap-6',
       'pb-14 px-14 border-b border-black',
     ])}>
-      <div className="border border-black flex flex-col self-stretch">
-        <span>Flushlist</span>
-        {flushList.map((anime) => (
-          <AnimeCard key={anime.node.id} anime={anime} />
-        ))}
-      </div>
+      <FlushList list={flushList} />
       <div className="border-b-2 border-black flex-grow relative" ref={timelineRef}>
         {cwList.map((anime, i) => (
           <PositionedAnimeCard key={anime.node.id} anime={anime} position={positions[i]} />
