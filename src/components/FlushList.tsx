@@ -33,14 +33,13 @@ export default function FlushList({ list }: FlushListProps) {
 
   return (
     <div
-      className="self-stretch flex flex-col border border-black"
+      className="self-stretch flex flex-col border-r border-black pr-6"
     >
-      <span>Flush List</span>
       <div
         className={clsx([
-          'border border-black',
           'flex-grow min-h-0',
           'flex flex-col-reverse flex-wrap-reverse',
+          'border-b-2 border-black relative',
         ])}
         style={{
           width: `${width}px`,
@@ -52,6 +51,9 @@ export default function FlushList({ list }: FlushListProps) {
         {list.map((anime) => (
           <AnimeCard key={anime.node.id} anime={anime} />
         ))}
+        <span className="text-sm absolute -bottom-[27px] right-0">
+          Older
+        </span>
       </div>
     </div>
   );
