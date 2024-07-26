@@ -76,15 +76,20 @@ export default function Timeline() {
   return (
     <div className={clsx([
       'h-1/2',
-      'flex items-end gap-6',
-      'pb-14 px-14 border-b border-black',
+      'flex flex-col',
+      'pt-2 pb-14 px-14 border-b border-black',
     ])}>
-      <FlushList list={flushList} />
-      <div className="border-b-2 border-black flex-grow relative" ref={timelineRef}>
-        {cwList.map((anime, i) => (
-          <PositionedAnimeCard key={anime.node.id} anime={anime} position={positions[i]} />
-        ))}
-        {renderMonthMarkers(leastRecentDate, findOffset)}
+      <div className="flex justify-center font-bold">
+        <span>Currently Watching</span>
+      </div>
+      <div className="flex items-end gap-6 min-h-0">
+        <FlushList list={flushList} />
+        <div className="border-b-2 border-black flex-grow relative" ref={timelineRef}>
+          {cwList.map((anime, i) => (
+            <PositionedAnimeCard key={anime.node.id} anime={anime} position={positions[i]} />
+          ))}
+          {renderMonthMarkers(leastRecentDate, findOffset)}
+        </div>
       </div>
     </div>
   );
