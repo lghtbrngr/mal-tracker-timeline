@@ -38,7 +38,7 @@ export default function PositionedAnimeCard({ anime, position }: PositionedAnime
       <AnimeCard anime={anime} onHoverChange={handleHoverChange} />
       <div
         className={clsx([
-          'absolute',
+          'absolute z-0',
           'border-black',
         ])}
         style={{

@@ -5,6 +5,28 @@ import { Anime } from '../types';
 import IncrementPanel from './IncrementPanel';
 import TitlePanel from './TitlePanel';
 
+interface OverlayProps {
+  anime: Anime;
+}
+
+function Overlay({ anime }: OverlayProps) {
+  return (
+    <div className="absolute bottom-0">
+      <TitlePanel anime={anime} />
+      <div className="flex">
+        <div
+          style={{
+            height: IMAGE_HEIGHT,
+            width: IMAGE_WIDTH,
+          }}
+        />
+        <IncrementPanel anime={anime} />
+      </div>
+
+    </div>
+  );
+}
+
 interface AnimeCardProps {
   anime: Anime;
   onHoverChange?: (b: boolean) => void;
@@ -23,30 +45,25 @@ export default function AnimeCard({ anime, onHoverChange }: AnimeCardProps) {
   return (
     <div
       className={clsx([
-        'relative', // positioning ancestor for TitlePanel
+        'relative', // positioning ancestor for Overlay
       ])}
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
     >
-      {isHovering && <TitlePanel anime={anime} />}
-      <div
-        className="flex"
-      >
-        <img
-          src={anime.node.main_picture.medium}
-          width={IMAGE_WIDTH}
-          className={clsx([
-            'z-10 inline',
-            'border border-black',
-            'max-w-none',
-          ])}
-          style={{
-            height: IMAGE_HEIGHT,
-          }}
-          alt=""
-        />
-        {isHovering && <IncrementPanel anime={anime} />}
-      </div>
+      <img
+        src={anime.node.main_picture.medium}
+        width={IMAGE_WIDTH}
+        className={clsx([
+          'z-10 inline',
+          'border border-black',
+          'max-w-none',
+        ])}
+        style={{
+          height: IMAGE_HEIGHT,
+        }}
+        alt=""
+      />
+      {isHovering && <Overlay anime={anime} />}
     </div>
   );
 }
