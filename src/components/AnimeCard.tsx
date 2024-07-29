@@ -54,7 +54,7 @@ export default function AnimeCard({ anime, onHoverChange }: AnimeCardProps) {
         src={anime.node.main_picture.medium}
         width={IMAGE_WIDTH}
         className={clsx([
-          'z-10 inline',
+          'inline relative z-10',
           'border border-black',
           'max-w-none',
         ])}

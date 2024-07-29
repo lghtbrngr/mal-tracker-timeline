@@ -10,9 +10,9 @@ export default function TitlePanel({ anime }: TitlePanelProps) {
   return (
     <div
       className={clsx([
+        'w-full relative z-30',
         'border border-gray-400 border-b-0 bg-white',
         'p-1 text-xs overflow-hidden overflow-ellipsis',
-        'w-full',
       ])}
     >
       <a
