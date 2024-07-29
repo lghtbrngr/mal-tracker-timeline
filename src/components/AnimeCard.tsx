@@ -4,7 +4,6 @@ import { IMAGE_HEIGHT, IMAGE_WIDTH } from '../constants';
 import { Anime } from '../types';
 import IncrementPanel from './IncrementPanel';
 import TitlePanel from './TitlePanel';
-import { measureWidth } from '../hooks';
 
 interface AnimeCardProps {
   anime: Anime;
@@ -21,8 +20,6 @@ export default function AnimeCard({ anime, onHoverChange }: AnimeCardProps) {
   const handleMouseOver = () => handleIsHovering(true);
   const handleMouseOut = () => handleIsHovering(false);
 
-  const [flexWidth, flexRef] = measureWidth<HTMLDivElement>([isHovering]);
-
   return (
     <div
       className={clsx([
@@ -31,10 +28,9 @@ export default function AnimeCard({ anime, onHoverChange }: AnimeCardProps) {
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
     >
-      {isHovering && <TitlePanel anime={anime} width={flexWidth} />}
+      {isHovering && <TitlePanel anime={anime} />}
       <div
         className="flex"
-        ref={flexRef}
       >
         <img
           src={anime.node.main_picture.medium}
