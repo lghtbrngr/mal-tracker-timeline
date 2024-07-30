@@ -3,6 +3,7 @@ import { ANIME_CARD_BOTTOM_PADDING, IMAGE_HEIGHT, IMAGE_WIDTH } from '../constan
 import { measureHeight } from '../hooks';
 import { Anime } from '../types';
 import AnimeCard from './AnimeCard';
+import Button from './Button';
 
 function computeContainerWidth(containerHeight: number, listLength: number) {
   /* Each item will have a padding of ANIME_CARD_BOTTOM_PADDING underneath it.
@@ -51,8 +52,15 @@ export default function FlushList({ list }: FlushListProps) {
         {list.map((anime) => (
           <AnimeCard key={anime.node.id} anime={anime} />
         ))}
-        <span className="text-sm absolute -bottom-[27px] right-0">
-          Older
+        <span className="text-sm absolute -bottom-[3.35rem] right-0">
+          <div className="text-right mb-0.5">Older</div>
+          <div>
+            <Button
+              colors="border-yellow-600 hover:bg-yellow-400"
+            >
+              All OH
+            </Button>
+          </div>
         </span>
       </div>
     </div>
