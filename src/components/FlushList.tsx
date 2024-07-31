@@ -1,7 +1,8 @@
 import clsx from 'clsx';
+import { useDispatch } from 'react-redux';
 import { ANIME_CARD_BOTTOM_PADDING, IMAGE_HEIGHT, IMAGE_WIDTH } from '../constants';
 import { measureHeight } from '../hooks';
-import { Anime } from '../types';
+import { Anime, updateAnimeStatus } from '../types';
 import AnimeCard from './AnimeCard';
 import Button from './Button';
 
@@ -26,6 +27,14 @@ interface FlushListProps {
 
 export default function FlushList({ list }: FlushListProps) {
   const [containerHeight, containerRef] = measureHeight<HTMLDivElement>();
+
+  const dispatch = useDispatch<any>();
+  const moveAllToOnHold = () => {
+    // dispatch(updateAnimeStatusBulk({
+    //   animeIds: list.map((anime: Anime) => anime.node.id),
+    //   status: 'onhold', // TODO confirm this keyword
+    // }));
+  };
 
   /* We have to manually set the flex container's width because flex-col flex-wrap
    * containers don't set their width properly. It's a known issue. */
@@ -56,6 +65,7 @@ export default function FlushList({ list }: FlushListProps) {
           <div className="text-right mb-0.5">Older</div>
           <div>
             <Button
+              onClick={moveAllToOnHold}
               colors="border-yellow-600 hover:bg-yellow-400"
             >
               All OH

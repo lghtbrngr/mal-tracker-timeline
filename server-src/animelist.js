@@ -33,14 +33,9 @@ exports.retrieve = async (req, res) => {
   });
 };
 
-async function putMyListStatus(req, res, payload) {
-  if (!malAccessToken) {
-    const message = 'Missing mal access token. Authenticate first.';
-    console.error(message);
-    res.status(404).send(message);
-  }
-  const url = `https://api.myanimelist.net/v2/anime/${req.body.animeId}/my_list_status`;
-  const response = await fetch(url, {
+async function putMyListStatus(animeId, payload) {
+  const url = `https://api.myanimelist.net/v2/anime/${animeId}/my_list_status`;
+  return await fetch(url, {
     method: 'PUT',
     headers: {
       Authorization: `Bearer ${malAccessToken}`,
@@ -48,18 +43,41 @@ async function putMyListStatus(req, res, payload) {
     },
     body: urlEncode(payload),
   });
+}
+
+async function updateMyListStatus(req, res, payload) {
+  if (!malAccessToken) {
+    const message = 'Missing mal access token. Authenticate first.';
+    console.error(message);
+    res.status(404).send(message);
+  }
+  const response = await putMyListStatus(req.body.animeId, payload);
   const json = await response.json();
   res.status(response.status).send(json);
 }
 
 exports.increment = async (req, res) => {
-  putMyListStatus(req, res, {
+  updateMyListStatus(req, res, {
     num_watched_episodes: req.body.episodesWatched,
   });
 };
 
 exports.updateStatus = async (req, res) => {
-  putMyListStatus(req, res, {
+  updateMyListStatus(req, res, {
     status: req.body.status,
   });
+};
+
+exports.updateStatusBulk = async (req, res) => {
+  if (!malAccessToken) {
+    const message = 'Missing mal access token. Authenticate first.';
+    console.error(message);
+    res.status(404).send(message);
+  }
+  const results = req.body.animeIds.map(async animeId => (
+    await putMyListStatus(animeId, { // TODO: rate limit
+      status: req.body.status,
+    })
+  )).map(async response => [response.status, await response.json()]);
+  res.send(results);
 };
