@@ -81,7 +81,7 @@ export default function Timeline() {
       <div className="flex justify-center font-bold">
         <span>Currently Watching</span>
       </div>
-      <div className="flex items-end gap-6 min-h-0">
+      <div className="flex items-end gap-6 min-h-0 flex-grow">
         <FlushList list={flushList} />
         <div className="border-b-2 border-black flex-grow relative" ref={timelineRef}>
           {cwList.map((anime, i) => (
