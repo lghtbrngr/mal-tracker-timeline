@@ -5,6 +5,7 @@ import { measureHeight } from '../hooks';
 import { Anime, updateAnimeStatusBulk } from '../types';
 import AnimeCard from './AnimeCard';
 import Button from './Button';
+import Tooltip from './Tooltip';
 
 function computeContainerWidth(containerHeight: number, listLength: number) {
   /* Each item will have a padding of ANIME_CARD_BOTTOM_PADDING underneath it.
@@ -64,12 +65,14 @@ export default function FlushList({ list }: FlushListProps) {
         <span className="text-sm absolute -bottom-[3.35rem] right-0">
           <div className="text-right mb-0.5">Older</div>
           <div>
-            <Button
-              onClick={moveAllToOnHold}
-              colors="border-yellow-600 hover:bg-yellow-400"
-            >
-              All OH
-            </Button>
+            <Tooltip text="Move all to On Hold">
+              <Button
+                onClick={moveAllToOnHold}
+                colors="border-yellow-600 hover:bg-yellow-400"
+              >
+                All OH
+              </Button>
+            </Tooltip>
           </div>
         </span>
       </div>
