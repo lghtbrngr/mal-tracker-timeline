@@ -2,6 +2,7 @@ import { AsyncThunk } from '@reduxjs/toolkit';
 import {
   incrementAnime as incrementAnimeJs,
   updateAnimeStatus as updateAnimeStatusJs,
+  updateAnimeStatusBulk as updateAnimeStatusBulkJs,
 } from './state/animeSlice';
 
 export type Anime = Record<string, any>;
@@ -18,3 +19,12 @@ interface UpdateAnimeStatusThunkArg {
 export const updateAnimeStatus = updateAnimeStatusJs as
   AsyncThunk<any, unknown, any> as
   AsyncThunk<any, UpdateAnimeStatusThunkArg, any>;
+
+interface UpdateAnimeStatusBulkThunkArg {
+  animeIds: string[];
+  status: AnimeStatus;
+}
+
+export const updateAnimeStatusBulk = updateAnimeStatusBulkJs as
+  AsyncThunk<any, unknown, any> as
+  AsyncThunk<any, UpdateAnimeStatusBulkThunkArg, any>;

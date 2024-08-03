@@ -7,7 +7,6 @@ import renderMonthMarkers from './renderMonthMarkers';
 import { IMAGE_WIDTH } from '../constants';
 import { dayOf } from '../util';
 import { selectCwList } from '../state/animeSlice';
-import AnimeCard from './AnimeCard';
 import FlushList from './FlushList';
 
 function sortAndSplitByCutoffDate(sourceCWList) {

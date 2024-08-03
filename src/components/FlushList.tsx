@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
 import { ANIME_CARD_BOTTOM_PADDING, IMAGE_HEIGHT, IMAGE_WIDTH } from '../constants';
 import { measureHeight } from '../hooks';
-import { Anime, updateAnimeStatus } from '../types';
+import { Anime, updateAnimeStatusBulk } from '../types';
 import AnimeCard from './AnimeCard';
 import Button from './Button';
 
@@ -30,10 +30,10 @@ export default function FlushList({ list }: FlushListProps) {
 
   const dispatch = useDispatch<any>();
   const moveAllToOnHold = () => {
-    // dispatch(updateAnimeStatusBulk({
-    //   animeIds: list.map((anime: Anime) => anime.node.id),
-    //   status: 'onhold', // TODO confirm this keyword
-    // }));
+    dispatch(updateAnimeStatusBulk({
+      animeIds: list.map((anime: Anime) => anime.node.id),
+      status: 'on_hold',
+    }));
   };
 
   /* We have to manually set the flex container's width because flex-col flex-wrap

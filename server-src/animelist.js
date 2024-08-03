@@ -74,10 +74,15 @@ exports.updateStatusBulk = async (req, res) => {
     console.error(message);
     res.status(404).send(message);
   }
-  const results = req.body.animeIds.map(async animeId => (
-    await putMyListStatus(animeId, { // TODO: rate limit
+  const resultPromises = req.body.animeIds.map(async animeId => {
+    const response = await putMyListStatus(animeId, { // TODO: rate limit
       status: req.body.status,
-    })
-  )).map(async response => [response.status, await response.json()]);
+    });
+    return {
+      status: response.status,
+      json: response.ok && await response.json(),
+    };
+  });
+  const results = await Promise.all(resultPromises);
   res.send(results);
 };
