@@ -7,7 +7,7 @@ import renderMonthMarkers from './renderMonthMarkers';
 import { IMAGE_WIDTH } from '../constants';
 import { dayOf } from '../util';
 import { selectCwList } from '../state/animeSlice';
-import FlushList from './FlushList';
+import OlderCWList from './OlderCWList';
 
 function sortAndSplitByCutoffDate(sourceCWList) {
   const cwList = sourceCWList.slice();
@@ -21,9 +21,9 @@ function sortAndSplitByCutoffDate(sourceCWList) {
   const cutoffDate = dayOf(new Date());
   cutoffDate.setMonth(cutoffDate.getMonth() - 3);
   const cutoffIndex = cwList.findIndex(a => new Date(a.list_status.updated_at) < cutoffDate);
-  const flushList = cutoffIndex > -1 ? cwList.splice(cutoffIndex) : [];
+  const olderCWList = cutoffIndex > -1 ? cwList.splice(cutoffIndex) : [];
 
-  return [cwList, flushList];
+  return [cwList, olderCWList];
 }
 
 function calculatePositions(cwList, findOffset) {
@@ -65,7 +65,8 @@ export default function Timeline() {
 
   const sourceCWList = useSelector(selectCwList);
 
-  const [cwList, flushList] = useMemo(() => sortAndSplitByCutoffDate(sourceCWList), [sourceCWList]);
+  const [cwList, olderCWList] =
+    useMemo(() => sortAndSplitByCutoffDate(sourceCWList), [sourceCWList]);
   const [findOffset, leastRecentDate, positions] = useMemo(() => {
     const [findOffset1, leastRecentDate1] = computeTimelineSpan(cwList, timelineWidth);
     const positions1 = calculatePositions(cwList, findOffset1);
@@ -82,7 +83,7 @@ export default function Timeline() {
         <span>Currently Watching</span>
       </div>
       <div className="flex items-end gap-6 min-h-0 flex-grow">
-        <FlushList list={flushList} />
+        <OlderCWList list={olderCWList} />
         <div className="border-b-2 border-black flex-grow relative" ref={timelineRef}>
           {cwList.map((anime, i) => (
             <PositionedAnimeCard key={anime.node.id} anime={anime} position={positions[i]} />
