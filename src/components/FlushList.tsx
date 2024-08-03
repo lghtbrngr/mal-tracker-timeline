@@ -42,6 +42,8 @@ export default function FlushList({ list }: FlushListProps) {
   const width = computeContainerWidth(containerHeight, list.length);
   const padding = `${ANIME_CARD_BOTTOM_PADDING}px`;
 
+  const showAllOHButton = list.length > 1;
+
   return (
     <div
       className="self-stretch flex flex-col border-r border-black pr-6"
@@ -62,9 +64,14 @@ export default function FlushList({ list }: FlushListProps) {
         {list.map((anime) => (
           <AnimeCard key={anime.node.id} anime={anime} />
         ))}
-        <span className="text-sm absolute -bottom-[3.35rem] right-0">
+        <span
+          className="text-sm absolute right-0"
+          style={{
+            bottom: `-${showAllOHButton ? 3.35 : 1.9}rem`,
+          }}
+        >
           <div className="text-right mb-0.5">Older</div>
-          <div>
+          {showAllOHButton && (
             <Tooltip text="Move all to On Hold">
               <Button
                 onClick={moveAllToOnHold}
@@ -73,7 +80,7 @@ export default function FlushList({ list }: FlushListProps) {
                 All OH
               </Button>
             </Tooltip>
-          </div>
+          )}
         </span>
       </div>
     </div>
