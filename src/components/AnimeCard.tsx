@@ -11,7 +11,7 @@ interface OverlayProps {
 
 function Overlay({ anime }: OverlayProps) {
   return (
-    <div className="absolute bottom-0">
+    <div className="absolute top-0">
       <TitlePanel anime={anime} />
       <div className="flex">
         <div
@@ -22,7 +22,6 @@ function Overlay({ anime }: OverlayProps) {
         />
         <IncrementPanel anime={anime} />
       </div>
-
     </div>
   );
 }
