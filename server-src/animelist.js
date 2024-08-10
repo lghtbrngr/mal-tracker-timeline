@@ -33,6 +33,16 @@ exports.retrieve = async (req, res) => {
   });
 };
 
+function checkMalAccessToken(res) {
+  if (!malAccessToken) {
+    const message = 'Missing mal access token. Authenticate first.';
+    console.error(message);
+    res.status(404).send(message);
+    return false;
+  }
+  return true;
+}
+
 async function putMyListStatus(animeId, payload) {
   const url = `https://api.myanimelist.net/v2/anime/${animeId}/my_list_status`;
   return await fetch(url, {
@@ -46,14 +56,11 @@ async function putMyListStatus(animeId, payload) {
 }
 
 async function updateMyListStatus(animeId, res, payload) {
-  if (!malAccessToken) {
-    const message = 'Missing mal access token. Authenticate first.';
-    console.error(message);
-    res.status(404).send(message);
+  if (checkMalAccessToken(res)) {
+    const response = await putMyListStatus(animeId, payload);
+    const json = await response.json();
+    res.status(response.status).send(json);
   }
-  const response = await putMyListStatus(animeId, payload);
-  const json = await response.json();
-  res.status(response.status).send(json);
 }
 
 exports.increment = async (req, res) => {
@@ -70,20 +77,17 @@ exports.updateStatus = async (req, res) => {
 };
 
 exports.updateStatusBulk = async (req, res) => {
-  if (!malAccessToken) {
-    const message = 'Missing mal access token. Authenticate first.';
-    console.error(message);
-    res.status(404).send(message);
-  }
-  const resultPromises = req.body.animeIds.map(async animeId => {
-    const response = await putMyListStatus(animeId, { // TODO: rate limit
-      status: req.body.status,
+  if (checkMalAccessToken(res)) {
+    const resultPromises = req.body.animeIds.map(async animeId => {
+      const response = await putMyListStatus(animeId, { // TODO: rate limit
+        status: req.body.status,
+      });
+      return {
+        status: response.status,
+        json: response.ok && await response.json(),
+      };
     });
-    return {
-      status: response.status,
-      json: response.ok && await response.json(),
-    };
-  });
-  const results = await Promise.all(resultPromises);
-  res.send(results);
+    const results = await Promise.all(resultPromises);
+    res.send(results);
+  }
 };
