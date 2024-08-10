@@ -14,7 +14,8 @@ function TableRow({ anime }: TableRowProps) {
   const handleUpdateStatus = (status: AnimeStatus) => {
     dispatch(updateAnimeStatus({
       animeId: anime.node.id,
-      status,
+      newStatus: status,
+      oldStatus: 'on_hold',
     }));
   };
 

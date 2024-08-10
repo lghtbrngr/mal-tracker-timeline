@@ -21,7 +21,8 @@ export default function IncrementPanel({ anime }: IncrementPanelProps) {
   const handleUpdateStatus = (status: AnimeStatus) => {
     dispatch(updateAnimeStatus({
       animeId: anime.node.id,
-      status,
+      newStatus: status,
+      oldStatus: 'watching',
     }));
   };
 

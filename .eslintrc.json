@@ -57,6 +57,7 @@
         "react/jsx-closing-tag-location": "off",
         "@typescript-eslint/no-unused-expressions": "off",
         "@typescript-eslint/return-await": "off",
+        "prefer-destructuring": "off",
         "no-param-reassign": [
             "error", {
                 "props": false

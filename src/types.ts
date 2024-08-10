@@ -13,7 +13,8 @@ export const incrementAnime = incrementAnimeJs as AsyncThunk<any, any, any>;
 
 interface UpdateAnimeStatusThunkArg {
   animeId: string;
-  status: AnimeStatus;
+  newStatus: AnimeStatus;
+  oldStatus: AnimeStatus; // Used to remove the anime from the old list in the UI
 }
 
 export const updateAnimeStatus = updateAnimeStatusJs as

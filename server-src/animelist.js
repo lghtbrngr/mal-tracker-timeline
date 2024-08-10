@@ -45,13 +45,13 @@ async function putMyListStatus(animeId, payload) {
   });
 }
 
-async function updateMyListStatus(req, res, payload) {
+async function updateMyListStatus(animeId, res, payload) {
   if (!malAccessToken) {
     const message = 'Missing mal access token. Authenticate first.';
     console.error(message);
     res.status(404).send(message);
   }
-  const response = await putMyListStatus(req.body.animeId, payload);
+  const response = await putMyListStatus(animeId, payload);
   const json = await response.json();
   res.status(response.status).send(json);
 }
@@ -63,8 +63,9 @@ exports.increment = async (req, res) => {
 };
 
 exports.updateStatus = async (req, res) => {
-  updateMyListStatus(req, res, {
-    status: req.body.status,
+  console.log(`updateStatus(${JSON.stringify(req.body)})`);
+  updateMyListStatus(req.body.animeId, res, {
+    status: req.body.newStatus,
   });
 };
 

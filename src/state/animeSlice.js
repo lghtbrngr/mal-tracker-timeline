@@ -48,15 +48,26 @@ export const animeSlice = createSlice({
         state.cwList[index].list_status = action.payload;
       })
       .addCase(updateAnimeStatus.fulfilled, (state, action) => {
-        // The following works for now, but will need attention if we ever allow updating statuses
-        // of anime on other lists than the onHoldList
-        const { status, animeId } = action.meta.arg;
-        const index = state.onHoldList.findIndex(anime => anime.node.id === animeId);
-        const anime = state.onHoldList.splice(index, 1)[0];
-        anime.list_status = action.payload;
-        if (status === 'watching') {
-          state.cwList.push(anime);
+        const { animeId, newStatus, oldStatus } = action.meta.arg;
+        // Pop anime from source list
+        let anime;
+        if (oldStatus === 'on_hold') {
+          const index = state.onHoldList.findIndex(a => a.node.id === animeId);
+          anime = state.onHoldList.splice(index, 1)[0];
+        } else if (oldStatus === 'watching') {
+          const index = state.cwList.findIndex(a => a.node.id === animeId);
+          anime = state.cwList.splice(index, 1)[0];
         }
+
+        anime.list_status = action.payload;
+
+        // Add anime to new list
+        if (newStatus === 'watching') {
+          state.cwList.push(anime);
+        } else if (newStatus === 'on_hold') {
+          state.onHoldList.push(anime);
+        }
+        // else if newStatus === 'dropped' do nothing because we don't show the dropped list
       })
       .addCase(updateAnimeStatusBulk.fulfilled, (state, action) => {
         // Assumes moving from cwList
