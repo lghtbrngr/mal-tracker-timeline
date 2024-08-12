@@ -45,6 +45,7 @@ function checkMalAccessToken(res) {
 
 async function putMyListStatus(animeId, payload) {
   const url = `https://api.myanimelist.net/v2/anime/${animeId}/my_list_status`;
+  console.log(url, JSON.stringify(payload));
   return await fetch(url, {
     method: 'PUT',
     headers: {
@@ -64,7 +65,8 @@ async function updateMyListStatus(animeId, res, payload) {
 }
 
 exports.increment = async (req, res) => {
-  updateMyListStatus(req, res, {
+  console.log(`increment(${JSON.stringify(req.body)})`);
+  updateMyListStatus(req.body.animeId, res, {
     num_watched_episodes: req.body.episodesWatched,
   });
 };
