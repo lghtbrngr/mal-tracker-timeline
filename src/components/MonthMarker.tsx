@@ -9,7 +9,10 @@ export default function MonthMarker({ month, findOffset }: MonthMarkerProps) {
   const [rect, labelRef] = useBoundingClientRect() as any;
   const labelOffset = rect ? rect.width / 2 : 0;
 
-  const label = `${month.getMonth() + 1}-${month.getFullYear()}`;
+  const label = month.toLocaleDateString(undefined, {
+    year: 'numeric',
+    month: 'short',
+  });
   const offset = findOffset(month);
   return (
     <span
