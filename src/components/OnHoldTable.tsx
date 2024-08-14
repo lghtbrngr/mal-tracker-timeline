@@ -54,7 +54,7 @@ export default function OnHoldTable() {
       <div className="flex justify-center pb-2 font-bold">
         <span>On Hold</span>
       </div>
-      <div className="flex-grow overflow-auto m-auto">
+      <div className="flex-grow overflow-auto flex justify-center">
         <table>
           <tbody>
             <tr className="whitespace-nowrap text-left border-b border-black">
