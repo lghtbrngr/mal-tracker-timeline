@@ -1,10 +1,18 @@
 require('dotenv').config();
 const express = require('express');
+const path = require('path');
 const animelist = require('./server-src/animelist');
 const malOauth = require('./server-src/malOauth');
 
 const app = express();
 
+// Serve client
+app.use(express.static(path.join(__dirname, 'build')));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+// Serve api
 app.use(express.json());
 
 app.get('/api/animelist', animelist.retrieve);
