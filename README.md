@@ -13,9 +13,13 @@ Includes a backend server that integrates with the official MAL API to access us
 
 # Other development notes
 - in development, backend server runs at localhost:3001, and frontend server forwards requests to it
-- in production, only the backend server will run, and it will serve the frontend as well
+- in production, only the backend server runs, and it serves the frontend as well. It's deployed as a docker container.
 - `npm client` starts just the dev server for the web app
 - `npm server` starts just the backend server
+- `npm run build` runs the CRA build script and then builds the docker image
+- `npm run docker` runs a docker container based on the built image.
+  - The web app running in the docker container should still be accessible at localhost:3000.
+  - You need docker set up (docker daemon running) and your user added to the docker group in order for this to work.
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

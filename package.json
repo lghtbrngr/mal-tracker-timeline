@@ -28,7 +28,8 @@
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server.js",
     "client": "BROWSER=none react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && docker image build -t mtt .",
+    "docker": "docker run -i -p 3000:3001 --rm --name mtt mtt",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
