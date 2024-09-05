@@ -13,8 +13,10 @@ Includes a backend server that integrates with the official MAL API to access us
 
 # Docker setup
 1. Install docker desktop
+  - Easiest way to run multi-platform docker builds, which are necessary for deployment on ARM-based servers. But if you're just running the app locally, no need to build for multiple platforms.
+1. Authenticate to docker hub within docker desktop, if pushing image to docker hub
 1. Deployment is currently manual. You build the docker image locally, push it to docker hub, then pull it down
-  from the production environment. Follow the below steps to connect your docker account to your local docker cli.
+from the production environment. Follow the below steps to connect your docker account to your local docker cli in your production environment.
   1. create repository on hub.docker.com
   1. create access token (see https://docs.docker.com/security/for-developers/access-tokens/#create-an-access-token)
   1. `docker login --username YOUR_USERNAME` and use the access token as the password
