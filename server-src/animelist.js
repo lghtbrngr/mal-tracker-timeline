@@ -60,6 +60,9 @@ async function updateMyListStatus(animeId, res, payload) {
   if (checkMalAccessToken(res)) {
     const response = await putMyListStatus(animeId, payload);
     const json = await response.json();
+    if (response.status === 401) {
+      console.warn('401 unauthorized. Need to reauthenticate.');
+    }
     res.status(response.status).send(json);
   }
 }

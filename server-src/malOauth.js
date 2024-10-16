@@ -29,12 +29,12 @@ exports.generateAuthUrl = (req, res) => {
   challenge = generateChallenge();
   result = result.concat(`&code_challenge=${challenge}`);
 
-  console.log(`challenge: ${challenge}`);
+  console.log(`auth url challenge: ${challenge}`);
   res.send(result);
 };
 
 // When the user clicks allow at the MAL url, MAL will redirect them
-// to /malAuthAllowed,
+// to /oauth,
 // which on load will call the /api/completeMalAuth api endpoint, which will
 // be handled by the below method. The below method queries MAL again to get
 // the user's access token and store it in the backend state (currently just
