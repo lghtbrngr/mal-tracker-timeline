@@ -1,9 +1,9 @@
 const fetch = require('node-fetch');
 const { urlEncode } = require('./util');
+const { decrypt } = require('./cryptutil');
 
 const malUsername = process.env.MAL_USERNAME;
 const malClientId = process.env.MAL_CLIENT_ID;
-const malAccessToken = process.env.ACCESS_TOKEN;
 
 async function retrieve(status) {
   const url = `https://api.myanimelist.net/v2/users/${malUsername}/animelist?
@@ -33,60 +33,62 @@ exports.retrieve = async (req, res) => {
   });
 };
 
-function checkMalAccessToken(res) {
-  if (!malAccessToken) {
-    const message = 'Missing mal access token. Authenticate first.';
+/* Parses the encrypted session cookie token or returns 401 unauthorized if it's missing */
+function withMalAccessToken(req, res, cb) {
+  if (req.cookies?.token) {
+    const token = decrypt(req.cookies.token);
+    cb(token);
+  } else {
+    const message = 'Missing session token. Authenticate first.';
     console.error(message);
-    res.status(404).send(message);
-    return false;
+    res.status(401).send(message);
   }
-  return true;
 }
 
-async function putMyListStatus(animeId, payload) {
+async function putMyListStatus(animeId, payload, token) {
   const url = `https://api.myanimelist.net/v2/anime/${animeId}/my_list_status`;
   console.log(url, JSON.stringify(payload));
   return await fetch(url, {
     method: 'PUT',
     headers: {
-      Authorization: `Bearer ${malAccessToken}`,
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: urlEncode(payload),
   });
 }
 
-async function updateMyListStatus(animeId, res, payload) {
-  if (checkMalAccessToken(res)) {
-    const response = await putMyListStatus(animeId, payload);
+async function updateMyListStatus(req, res, payload) {
+  withMalAccessToken(req, res, async (token) => {
+    const response = await putMyListStatus(req.body.animeId, payload, token);
     const json = await response.json();
     if (response.status === 401) {
       console.warn('401 unauthorized. Need to reauthenticate.');
     }
     res.status(response.status).send(json);
-  }
+  });
 }
 
 exports.increment = async (req, res) => {
   console.log(`increment(${JSON.stringify(req.body)})`);
-  updateMyListStatus(req.body.animeId, res, {
+  updateMyListStatus(req, res, {
     num_watched_episodes: req.body.episodesWatched,
   });
 };
 
 exports.updateStatus = async (req, res) => {
   console.log(`updateStatus(${JSON.stringify(req.body)})`);
-  updateMyListStatus(req.body.animeId, res, {
+  updateMyListStatus(req, res, {
     status: req.body.newStatus,
   });
 };
 
 exports.updateStatusBulk = async (req, res) => {
-  if (checkMalAccessToken(res)) {
+  withMalAccessToken(req, res, async (token) => {
     const resultPromises = req.body.animeIds.map(async animeId => {
       const response = await putMyListStatus(animeId, { // TODO: rate limit
         status: req.body.status,
-      });
+      }, token);
       return {
         status: response.status,
         json: response.ok && await response.json(),
@@ -94,5 +96,5 @@ exports.updateStatusBulk = async (req, res) => {
     });
     const results = await Promise.all(resultPromises);
     res.send(results);
-  }
+  });
 };

@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
+const cookieParser = require('cookie-parser');
 const animelist = require('./server-src/animelist');
 const malOauth = require('./server-src/malOauth');
 
@@ -14,6 +15,7 @@ app.get('/', (req, res) => {
 
 // Serve api
 app.use(express.json());
+app.use(cookieParser());
 
 app.get('/api/animelist', animelist.retrieve);
 app.put('/api/incrementAnime', animelist.increment);
