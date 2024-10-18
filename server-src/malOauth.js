@@ -1,6 +1,7 @@
 const { randomBytes } = require('node:crypto');
 const fetch = require('node-fetch');
 const { urlEncode } = require('./util');
+const { encrypt } = require('./cryptutil');
 
 const BASE_AUTH_URL = 'https://myanimelist.net/v1/oauth2/authorize?response_type=code';
 const TOKEN_URL = 'https://myanimelist.net/v1/oauth2/token';
@@ -29,7 +30,6 @@ exports.generateAuthUrl = (req, res) => {
   challenge = generateChallenge();
   result = result.concat(`&code_challenge=${challenge}`);
 
-  console.log(`auth url challenge: ${challenge}`);
   res.send(result);
 };
 
@@ -37,8 +37,7 @@ exports.generateAuthUrl = (req, res) => {
 // to /oauth,
 // which on load will call the /api/completeMalAuth api endpoint, which will
 // be handled by the below method. The below method queries MAL again to get
-// the user's access token and store it in the backend state (currently just
-// in local memory).
+// the user's access token, then encrypts the token and sets it as an auth cookie.
 exports.completeMalAuth = async (req, res) => {
   if (challenge === null) {
     console.warn('mal auth completion api called, but no challenge was in memory');
@@ -62,9 +61,14 @@ exports.completeMalAuth = async (req, res) => {
     body: urlEncode(params),
   });
   const json = await response.json();
-  challenge = null;
-  console.log('MAL access token response, to put in .env file manually:');
-  console.log(json);
-
+  const token = encrypt(json.access_token);
+  res.cookie('token', token, {
+    // secure: true,
+    httpOnly: true,
+    sameSite: 'Strict',
+    maxAge: json.expires_in * 1000,
+  });
   res.end();
+
+  challenge = null;
 };
